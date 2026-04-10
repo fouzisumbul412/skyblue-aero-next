@@ -25,10 +25,10 @@ import { DemoAlt } from "@/components/home/demo-alt";
 import ScrollAnimation from "@/components/home/ScrollAnimation";
 import { Users, Globe, Map, Plane } from "lucide-react";
 import ServicesPage from "@/components/home/ServicesPage";
-import ClientSection from "@/components/home/ClientSection";
+
 import OrbitingSkills from "@/components/ui/orbiting-skills";
 import ClientsSection from "@/components/home/clients-section";
-import FalconTour from "@/components/home/FalconTour";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
