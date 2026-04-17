@@ -28,6 +28,7 @@ const services: ServiceItem[] = [
       "Charter private aircraft on demand with access to a worldwide fleet. Experience unmatched flexibility, complete privacy, and a journey tailored entirely around your schedule.",
     className: "xl:col-span-4 xl:row-start-1",
     delay: 140,
+    link: "/charters",
     cardAos: "fade-up",
   },
   {

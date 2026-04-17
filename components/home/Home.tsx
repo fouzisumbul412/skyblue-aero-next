@@ -28,6 +28,7 @@ import ServicesPage from "@/components/home/ServicesPage";
 
 import OrbitingSkills from "@/components/ui/orbiting-skills";
 import ClientsSection from "@/components/home/clients-section";
+import CharterServicesGrid from "./charter-services-grid";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -206,20 +207,20 @@ const Home: React.FC<HomeProps> = ({ isLoaded }) => {
         </div>
       </section> */}
 
-
+<CharterServicesGrid />
  {/* features */}
- <Falcon900ExperienceSection />
+ {/* <Falcon900ExperienceSection /> */}
 {/* services */}
 
 {/* <ServicesPage />  */}
 
   <ServicesSection />
- {/* <OrbitingSkills /> */}
+ <OrbitingSkills />
 
 {/* available */}
 <DemoAlt />
 {/* <ClientSection /> */}
-<ClientsSection />
+{/* <ClientsSection /> */}
 
       
     </main>

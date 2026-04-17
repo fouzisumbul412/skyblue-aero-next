@@ -267,20 +267,20 @@ export default function OrbitingSkills() {
             move with us.
           </h2>
 
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-white/72 md:text-base lg:mx-0">
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-black md:text-base lg:mx-0">
             Built with trust, performance, and long-term partnerships, our work
             is backed by brands and businesses that rely on consistency,
             precision, and creative execution.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-            <div className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/85 backdrop-blur-sm">
-              13+ Clients
+              <div className="rounded-full border border-white/15 bg-brand-obsidian px-4 py-2 text-sm text-white backdrop-blur-sm">
+                13+ Clients
             </div>
-            <div className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/85 backdrop-blur-sm">
+            <div className="rounded-full border border-white/15 bg-brand-obsidian px-4 py-2 text-sm text-white backdrop-blur-sm">
               Design & Development
             </div>
-            <div className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/85 backdrop-blur-sm">
+            <div className="rounded-full border border-white/15 bg-brand-obsidian px-4 py-2 text-sm text-white backdrop-blur-sm">
               Brand Partnerships
             </div>
           </div>

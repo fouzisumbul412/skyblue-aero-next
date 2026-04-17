@@ -3,23 +3,10 @@ import Link from "next/link";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="relative overflow-hidden py-16 md:py-24">
+    <footer className="relative overflow-hidden py-16 md:py-24 bg-brand-obsidian">
       
       {/* VIDEO BACKGROUND */}
-      <div className="absolute inset-0 z-0 w-full h-full">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover"
-        >
-          <source src="/images/footerlanding.mp4" type="video/mp4" />
-        </video>
-      </div>
-
-      {/* OPTIONAL DARK OVERLAY (for readability) */}
-      <div className="absolute inset-0 z-10 bg-black/50" />
+      
 
       {/* FOOTER CONTENT */}
       <div className="relative z-20 max-w-[1400px] mx-auto px-6 md:px-10">
@@ -49,7 +36,7 @@ const Footer: React.FC = () => {
                 { name: "Air Charters", path: "/charters" },
                 { name: "Aircraft Brokerage", path: "/brokerage" },
                 { name: "Trip Support", path: "/trip-support" },
-                { name: "Maintenance & Mgt", path: "/maintenance" },
+                { name: "Maintenance", path: "/maintenance" },
                 { name: "Crew Leasing", path: "/crew-leasing" },
               ].map((link) => (
                 <Link 
@@ -72,7 +59,7 @@ const Footer: React.FC = () => {
               {[
                 { name: "About Us", path: "/about" },
                 { name: "Gallery", path: "/gallery" },
-                { name: "Insights", path: "/blog" },
+                { name: "Blogs", path: "/blog" },
               ].map((link) => (
                 <Link 
                   key={link.name} 

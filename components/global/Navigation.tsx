@@ -12,6 +12,7 @@ const navLinks = [
   { label: "Trip Support", path: "/trip-support" },
   { label: "Brokerage", path: "/brokerage" },
   { label: "Maintenance", path: "/maintenance" },
+  { label: "Charters", path: "/charters" },
   { label: "Crew Leasing", path: "/crew-leasing" },
 ];
 
@@ -143,7 +144,7 @@ const Navigation = ({
               onClick={onOpenQuote}
               className="bg-brand-navy text-brand-cream px-6 py-2.5 text-sm font-body tracking-wide hover:bg-brand-obsidian transition-colors"
             >
-              Quick Quote
+              Reach Us
             </MagneticButton>
           </div>
 
@@ -195,7 +196,7 @@ const Navigation = ({
                 }}
                 className="mt-4 bg-orange-500 text-brand-obsidian px-8 py-3 font-body text-sm tracking-wide"
               >
-                Quick Quote
+                Reach Us
               </button>
             </motion.div>
           </motion.div>
