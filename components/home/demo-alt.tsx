@@ -27,7 +27,7 @@ const features = [
     title: "Efficient",
     description:
       "Optimized routing and expert crew coordination ensure reduced travel time, operational efficiency, and a seamless end-to-end experience.",
-    image: "/images/ef.png",
+    image: "/images/effient-s.jpg",
   },
 ];
 

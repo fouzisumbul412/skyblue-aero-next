@@ -323,3 +323,11 @@ html.lenis, html.lenis body {
     font-style: normal;
     font-display: swap;
 }
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-245px * 9));
+  }
+}
