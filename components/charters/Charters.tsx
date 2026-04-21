@@ -6,6 +6,7 @@ import SplitTextReveal from "@/components/motion/SplitTextReveal";
 import FadeUpStagger from "@/components/motion/FadeUpStagger";
 import ClipReveal from "@/components/motion/ClipReveal";
 import AnimatedCounter from "@/components/global/AnimatedCounter";
+import Falcon900ExperienceSection from "@/components/home/Falcon900ExperienceSection";
 
 const Charters = () => {
   return (
@@ -67,9 +68,11 @@ const Charters = () => {
 
         </div>
       </section>
+<Falcon900ExperienceSection />
+
 
       {/* WHY CHARTER */}
-      <section className="bg-brand-navy py-24 md:py-32">
+      {/* <section className="bg-brand-navy py-24 md:py-32">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10">
 
           <SplitTextReveal
@@ -108,10 +111,10 @@ const Charters = () => {
           </div>
 
         </div>
-      </section>
+      </section> */}
 
       {/* COUNTERS */}
-      <section className="bg-brand-cream py-16">
+      {/* <section className="bg-brand-cream py-16">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 grid grid-cols-2 md:grid-cols-4 gap-8">
 
           <AnimatedCounter end={5000} suffix="+" label="Aircraft Available" />
@@ -120,7 +123,7 @@ const Charters = () => {
           <AnimatedCounter end={24} suffix="/7" label="Operations" />
 
         </div>
-      </section>
+      </section> */}
     </main>
   );
 };

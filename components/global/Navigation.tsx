@@ -191,10 +191,7 @@ const Navigation = ({
               transition={{ delay: navLinks.length * 0.05 }}
             >
               <button
-                onClick={() => {
-                  setMobileOpen(false);
-                  onOpenQuote();
-                }}
+                href="/contact"
                 className="mt-4 bg-orange-500 text-brand-obsidian px-8 py-3 font-body text-sm tracking-wide"
               >
                 Reach Us
