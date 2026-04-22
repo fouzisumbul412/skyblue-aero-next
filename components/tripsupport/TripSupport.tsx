@@ -303,7 +303,7 @@ export default function TripSupport() {
 
                 <div className="mt-10">
                   <a
-                    href="https://www.skyblue.aero/wp-content/uploads/2020/07/Skyblue-International-Trip-Support1.pdf"
+                    href="/pdf/Trip-Support.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group inline-flex items-center gap-4 rounded-full bg-[#1671a9] px-7 py-4 text-sm font-semibold text-white transition-all duration-500 hover:-translate-y-1 hover:bg-[#11192C] hover:shadow-[0_20px_60px_rgba(6,17,29,0.18)]"
@@ -415,7 +415,7 @@ export default function TripSupport() {
                       </p>
                     </div>
 
-                    <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-[#D7A34D] transition-all duration-500 group-hover:w-full" />
+                    <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-[#EF7E03] transition-all duration-500 group-hover:w-full" />
                   </div>
                 );
               })}

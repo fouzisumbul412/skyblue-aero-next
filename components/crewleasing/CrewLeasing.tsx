@@ -332,7 +332,7 @@ export default function CrewLeasing() {
 
                 <div className="mt-10">
                   <a
-                    href="https://skyblue.aero/mainsite/wp-content/uploads/2013/10/Skyblue-Crew-Leasing.pdf"
+                    href="/pdf/Crew-Leasing.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group inline-flex items-center gap-4 rounded-full bg-[#1671a9] px-7 py-4 text-sm font-semibold text-white transition-all duration-500 hover:-translate-y-1 hover:bg-[#11192C]"
@@ -440,7 +440,7 @@ export default function CrewLeasing() {
                       </p>
                     </div>
 
-                    <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-[#D7A34D] transition-all duration-500 group-hover:w-full" />
+                    <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-[#EF7E03] transition-all duration-500 group-hover:w-full" />
                   </div>
                 );
               })}

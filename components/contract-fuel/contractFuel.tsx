@@ -12,6 +12,14 @@ import {
   TrendingDown,
   ArrowRight,
   FileText,
+  Building2,
+  Truck,
+  WalletCards,
+  BadgePercent,
+  Landmark,
+  Wallet,
+  CreditCard,
+  BadgeDollarSign,
 } from "lucide-react";
 
 import SplitTextReveal from "@/components/motion/SplitTextReveal";
@@ -20,26 +28,67 @@ import ClipReveal from "@/components/motion/ClipReveal";
 
 /* ─── DATA ──────────────────────────────────────────────────── */
 
-const features = [
+export const features = [
   {
-    icon: Globe2,
-    title: "SINGLE SOURCE GLOBAL SUPPLY",
-    desc: "A unified approach to fuel procurement, providing you with a reliable single source for aviation fuel across 4,000+ worldwide locations.",
+    icon: ShieldCheck,
+    title: "UNIVERSAL ACCEPTANCE",
+    desc: "Accepted across major fuel networks including HP, BP, Reliance, Shell, and Essar depots nationwide. Businesses benefit from seamless cashless transactions and a wider fuel access network without operational interruptions.",
+    points: [
+      "Accepted at HP, BP, Reliance, Shell and Essar",
+      "Cashless transactions nationwide",
+      "Reliable fuel access across India",
+    ],
   },
   {
-    icon: DollarSign,
-    title: "DISCOUNTED FUEL RATES",
-    desc: "Leveraging our immense purchasing power and global volume to secure highly competitive, discounted jet fuel rates for every uplift.",
+    icon: BadgeDollarSign,
+    title: "SIGNIFICANT COST SAVINGS & REBATES",
+    desc: "Skyblue helps businesses reduce fuel expenses through discounted pricing, freight savings, and volume-based rebates. Savings begin from the first uplift with no minimum usage requirement.",
+    points: [
+      "Savings from first uplift",
+      "No volume commitment required",
+      "Tiered volume discounts",
+      "Freight charge savings",
+    ],
   },
   {
-    icon: Clock,
-    title: "24x7 OPS TEAM COORDINATION",
-    desc: "Every single fuel uplift is painstakingly coordinated by our dedicated 24x7 Operations Team, ensuring no delays and exact timing.",
+    icon: CreditCard,
+    title: "CREDIT & PREPAYMENT OPTIONS",
+    desc: "The Skyblue Fuel Card is powered by VISA and HDFC Bank, giving businesses access to flexible payment options including prepaid cards and credit facilities for eligible customers.",
+    points: [
+      "Powered by VISA and HDFC Bank",
+      "Credit facility for eligible customers",
+      "Prepaid and flexible payment options",
+    ],
   },
   {
-    icon: Fuel,
-    title: "PROMPT SERVICE AT THE BAY",
-    desc: "We prioritize seamless ground experiences to guarantee prompt, priority service at the bay, putting your aircraft back in the air swiftly.",
+    icon: Wallet,
+    title: "COMPLIMENTARY SERVICES",
+    desc: "Enjoy transparent pricing with no setup costs, no transaction charges, and no annual fees. Skyblue keeps your fuel management simple and cost-effective from day one.",
+    points: [
+      "No setup fees",
+      "No transaction charges",
+      "No annual maintenance costs",
+    ],
+  },
+  {
+    icon: Landmark,
+    title: "TRUSTED BANKING & PAYMENT BACKING",
+    desc: "With support from established financial institutions and fuel partners, businesses gain a secure and dependable payment ecosystem for all fuel-related transactions.",
+    points: [
+      "Secure payment infrastructure",
+      "Reliable financial partnerships",
+      "Better transaction transparency",
+    ],
+  },
+  {
+    icon: Building2,
+    title: "BUILT FOR BUSINESS OPERATIONS",
+    desc: "Designed for fleet operators, logistics companies, industrial businesses, and commercial transport operators who need efficient fuel access, better control, and reduced operating costs.",
+    points: [
+      "Ideal for fleets and logistics",
+      "Supports corporate operations",
+      "Improves fuel management efficiency",
+    ],
   },
 ];
 
@@ -50,7 +99,38 @@ const markets = [
   "ASIA PACIFIC",
   "AFRICA",
 ];
-
+export const whyUs = [
+  {
+    icon: BadgePercent,
+    title: "Petro Products - Easy access. Discounted rates",
+    desc: "Skyblue brings over 5 years of expertise in aviation and petro product supply, helping businesses access discounted fuel rates across more than 60 cities and 400+ locations nationwide. Through strong partnerships with leading oil companies and high-volume purchasing, customers benefit from better pricing, simplified fuel access, and reduced operational costs.",
+    stats: "60+ Cities • 400+ Locations",
+  },
+  {
+    icon: WalletCards,
+    title: "Universal Access Through One Fuel Card",
+    desc: "With a single Skyblue Fuel Card, businesses can access multiple petro products across India without maintaining separate vendor relationships. This gives teams a seamless and flexible way to manage fuel, lubricants, and related services under one trusted platform.",
+    stats: "One Card • Multi-Brand Access",
+  },
+  {
+    icon: Truck,
+    title: "One Stop Fulfillment",
+    desc: `We offer you a single source supply of all Petro Products. You do not
+need to have multiple relationships with different oil companies for
+your petro product requirement. With the Skyblue Fuel Card, you can
+order and enjoy on demand door delivery service of your specific
+Petro Product from strategic locations across the country`,
+    stats: "Fast & Strategic Locations",
+  },
+  {
+    icon: FileText,
+    title: "Unparalleled Reporting Alleviates Cumbersome Administrative Work",
+    desc: `Easy to understand reporting, detailing every transaction on every
+card. Get all your Petro Product expenses in one easy-to-read report.
+Access all your account informationin real time.`,
+    stats: "Real-Time & Better Control",
+  },
+];
 export default function ContractFuel() {
   return (
     <main className="bg-[#F6F4EF] overflow-hidden">
@@ -96,7 +176,7 @@ export default function ContractFuel() {
 
           <SplitTextReveal
             as="h1"
-            className="text-3xl md:text-6xl font-display font-bold text-brand-cream"
+            className="text-xl md:text-5xl font-display font-bold text-brand-cream"
           >
             Flexibility, Control and Convenience.
           </SplitTextReveal>
@@ -140,17 +220,28 @@ export default function ContractFuel() {
                   control over your fuel expenses, and pure convenience built
                   around your flight schedule.
                 </p>
+                <div className="mt-10">
+                  <a
+                    href="/pdf/contract-fuel.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-4 rounded-full bg-[#1671a9] px-7 py-4 text-sm font-semibold text-white transition-all duration-500 hover:-translate-y-1 hover:bg-[#11192C] hover:shadow-[0_20px_60px_rgba(6,17,29,0.18)]"
+                  >
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#EF7C00]/10 border border-[#EF7C00]/20">
+                      <FileText className="h-5 w-5 text-[#EF7C00]" />
+                    </div>
 
-                <div className="mt-10 flex flex-wrap gap-3">
-                  {markets.map((m) => (
-                    <span
-                      key={m}
-                      className="inline-flex items-center gap-2 rounded-full border border-[#06111D]/10 bg-[#06111D]/5 px-5 py-2 text-sm font-medium text-[#06111D]/75 hover:bg-[#D7A34D] hover:text-white transition-colors duration-300"
-                    >
-                      <MapPin className="h-3 w-3 text-[#EF7C00] group-hover:text-white" />
-                      {m}
-                    </span>
-                  ))}
+                    <div className="flex flex-col items-start">
+                      <span className="text-[10px] uppercase tracking-[0.3em] text-white/50">
+                        Download Brochure
+                      </span>
+                      <span className="text-sm font-semibold text-white">
+                        Contract Fuel PDF
+                      </span>
+                    </div>
+
+                    <ArrowRight className="h-4 w-4 text-[#EF7C00] transition-transform duration-300 group-hover:translate-x-1" />
+                  </a>
                 </div>
               </div>
             </FadeUpStagger>
@@ -186,8 +277,72 @@ export default function ContractFuel() {
           </div>
         </div>
       </section>
+      {/* ════════════════════════════════ WHY SKYBLUE ════════════════════════ */}
+      <section className="py-10 md:py-20 bg-[#F6F4EF]">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16">
+          <FadeUpStagger>
+            <div className="flex justify-center items-center flex-col mb-10">
+              <FadeUpStagger>
+                <div className="inline-flex items-center gap-3 rounded-full border border-[#D7A34D]/15 bg-[#D7A34D]/10 backdrop-blur-md px-5 py-2 mb-8">
+                  <span className="h-2 w-2 rounded-full bg-[#ed7e0a] animate-pulse" />
+                  <span className="text-[11px] tracking-[0.35em] uppercase text-[#ed7e0a] font-medium">
+                    Why Skyblue
+                  </span>
+                </div>
+              </FadeUpStagger>
+              <h2 className="text-xl md:text-5xl leading-[1.1] tracking-[-0.01em] font-bold text-[#06111D]">
+                WHY CHOOSE OUR FUEL CARD
+              </h2>
+            </div>
+          </FadeUpStagger>
 
-      {/* ════════════════════════════════ THE SKYBLUE ADVANTAGE ════════════════════════ */}
+          <FadeUpStagger>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-7">
+              {whyUs.map((item, index) => {
+                const Icon = item.icon;
+
+                return (
+                  <div
+                    key={item.title}
+                    className="group relative overflow-hidden rounded-[32px] border border-[#06111D]/10 bg-white/90 backdrop-blur-xl p-7 md:p-8 shadow-[0_15px_50px_rgba(6,17,29,0.08)] transition-all duration-500 hover:-translate-y-2 hover:border-[#EF7E03]/30 hover:shadow-[0_25px_80px_rgba(6,17,29,0.14)]"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#1671A9]/0 via-transparent to-[#EF7E03]/0 group-hover:from-[#1671A9]/5 group-hover:to-[#EF7E03]/10 transition-all duration-500" />
+
+                    <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-[#EF7E03] blur-3xl opacity-0 transition-all duration-500 group-hover:opacity-100" />
+
+                    <div className="absolute right-6 top-5 text-[72px] font-bold leading-none tracking-[-0.05em] text-[#06111D]/5 transition-all duration-500 group-hover:text-[#EF7E03]/10">
+                      {String(index + 1).padStart(2, "0")}
+                    </div>
+
+                    <div className="relative z-10 flex flex-col h-full">
+                      <div className="mb-6 flex items-center justify-between gap-4">
+                        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#1671A9] to-[#0F5B88] text-[#EF7E03] shadow-lg shadow-[#1671A9]/20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
+                          <Icon className="h-7 w-7" strokeWidth={2.2} />
+                        </div>
+
+                        <div className="rounded-full border border-[#EF7E03]/20 bg-[#EF7E03]/10 px-3 py-2 text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EF7E03] text-right">
+                          {item.stats}
+                        </div>
+                      </div>
+
+                      <h3 className="text-xl md:text-2xl font-bold leading-[1.2] tracking-[-0.01em] text-[#06111D]">
+                        {item.title}
+                      </h3>
+
+                      <p className="mt-5 text-[15px] leading-7 text-[#06111D]/70">
+                        {item.desc}
+                      </p>
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-[#EF7E03] transition-all duration-500 group-hover:w-full" />
+                  </div>
+                );
+              })}
+            </div>
+          </FadeUpStagger>
+        </div>
+      </section>
+      {/* ════════════════════════════════ THE SKYBLUE usp ════════════════════════ */}
       <section className="py-12 md:py-24 bg-[#1671a9] relative overflow-hidden">
         {/* Decorative blobs */}
         <div className="absolute top-0 right-0 h-[600px] w-[600px] rounded-full bg-[#D7A34D]/10 blur-[120px] pointer-events-none" />
@@ -212,32 +367,43 @@ export default function ContractFuel() {
 
           <FadeUpStagger>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
-              {features.map((item, index) => {
+              {features.map((item) => {
                 const Icon = item.icon;
 
                 return (
                   <div
                     key={item.title}
-                    className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.03] backdrop-blur-md p-10 md:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.1)] transition-all duration-500 hover:-translate-y-2 hover:border-[#D7A34D]/40 hover:bg-white/[0.06] hover:shadow-[0_32px_80px_rgba(0,0,0,0.25)]"
+                    className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] backdrop-blur-xl p-8 md:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 hover:border-[#D7A34D]/40 hover:bg-white/[0.07] hover:shadow-[0_32px_80px_rgba(0,0,0,0.25)]"
                   >
-                    {/* Glow Accents */}
-                    <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-[#D7A34D] blur-[80px] opacity-0 transition-opacity duration-700 group-hover:opacity-20" />
+                    <div className="absolute -right-16 -top-16 h-52 w-52 rounded-full bg-[#D7A34D]/20 blur-[90px] opacity-0 transition-all duration-700 group-hover:opacity-100" />
 
                     <div className="relative z-10">
-                      <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#fff]/50 border border-white/10 text-[#ee7f08] transition-all duration-300 group-hover:scale-110 group-hover:-rotate-3 shadow-lg">
-                        <Icon className="h-7 w-7" />
+                      <div className="mb-7 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-[#EE7D03] shadow-lg shadow-black/20 transition-all duration-500 group-hover:scale-110 group-hover:-rotate-3">
+                        <Icon className="h-7 w-7" strokeWidth={2.2} />
                       </div>
 
-                      <h3 className="text-xl md:text-2xl font-bold leading-[1.3] text-white tracking-wide">
+                      <h3 className="text-xl md:text-[28px] font-bold leading-[1.15] tracking-[-0.02em] text-white">
                         {item.title}
                       </h3>
 
-                      <p className="mt-5 text-[16px] leading-relaxed text-white/70">
+                      <p className="mt-5 text-[15px] leading-7 text-white/70">
                         {item.desc}
                       </p>
+
+                      <div className="mt-6 space-y-3 border-t border-white/10 pt-6">
+                        {item.points.map((point) => (
+                          <div
+                            key={point}
+                            className="flex items-start gap-3 text-[14px] md:text-[15px] leading-6 text-white/80"
+                          >
+                            <div className="mt-2 h-2 w-2 rounded-full bg-[#D7A34D] shrink-0" />
+                            <span>{point}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
-                    <div className="absolute bottom-0 left-0 h-[4px] w-0 bg-gradient-to-r from-[#D7A34D] to-[#ed7e0a] transition-all duration-700 ease-out group-hover:w-full" />
+                    <div className="absolute bottom-0 left-0 h-[4px] w-0 bg-gradient-to-r from-[#D7A34D] to-[#EE7D03] transition-all duration-700 group-hover:w-full" />
                   </div>
                 );
               })}
