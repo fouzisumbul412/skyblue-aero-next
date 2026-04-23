@@ -166,11 +166,11 @@ async function main() {
   });
 
   // SEED ADMIN USER
-  const hashedPassword = await bcrypt.hash("Aman@123", 10);
+  const hashedPassword = await bcrypt.hash("password123", 10);
   await prisma.user.create({
     data: {
       name: "Admin",
-      email: "admin@skyblue.com",
+      email: "admin@gmail.com",
       password: hashedPassword,
       role: "ADMIN"
     }

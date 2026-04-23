@@ -2,9 +2,9 @@
 
 import "./globals.css";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 import Providers from "./providers";
-
 import Navigation from "@/components/global/Navigation";
 import Footer from "@/components/global/Footer";
 import FloatingActions from "@/components/global/FloatingActions";
@@ -19,14 +19,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const isAuthOrAdmin = pathname.startsWith("/login") || pathname.startsWith("/admin");
+
   const [quoteOpen, setQuoteOpen] = useState(false);
   const [isCharterOpen, setIsCharterOpen] = useState(false);
   const [showNavLogo, setShowNavLogo] = useState(false);
-
-  // ✅ FIX: always same on server & client initially
   const [isLoadingDone, setIsLoadingDone] = useState(false);
 
-  // ✅ FIX: read sessionStorage AFTER mount
   useEffect(() => {
     const loaderShown = sessionStorage.getItem("loaderShown") === "true";
     if (loaderShown) {
@@ -43,43 +43,39 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning>
         <Providers>
-
-          {/* Loader */}
-          {!isLoadingDone && (
+          {!isLoadingDone && !isAuthOrAdmin && (
             <FlightLoader
               onComplete={handleLoaderComplete}
               onLogoArrived={() => setShowNavLogo(true)}
             />
           )}
 
-          {/* App */}
-          <SmoothScrollProvider>
-            <GrainOverlay />
-
-            <Navigation
-              onOpenQuote={() => setQuoteOpen(true)}
-              showLogo={showNavLogo || isLoadingDone}
-            />
-
-            <FloatingActions
-              onOpenCharter={() => setIsCharterOpen(true)}
-            />
-
-            <BookCharterSheet
-              isOpen={isCharterOpen}
-              onClose={() => setIsCharterOpen(false)}
-            />
-
-            <QuickQuoteModal
-              open={quoteOpen}
-              onClose={() => setQuoteOpen(false)}
-            />
-
-            {/* PAGE CONTENT */}
-            {children}
-          </SmoothScrollProvider>
-
-          <Footer />
+          {isAuthOrAdmin ? (
+            children
+          ) : (
+            <SmoothScrollProvider>
+              <GrainOverlay />
+              <Navigation
+                onOpenQuote={() => setQuoteOpen(true)}
+                showLogo={showNavLogo || isLoadingDone}
+              />
+              <FloatingActions
+                onOpenCharter={() => setIsCharterOpen(true)}
+              />
+              <BookCharterSheet
+                isOpen={isCharterOpen}
+                onClose={() => setIsCharterOpen(false)}
+              />
+              <QuickQuoteModal
+                open={quoteOpen}
+                onClose={() => setQuoteOpen(false)}
+              />
+              
+              {children}
+              
+              <Footer />
+            </SmoothScrollProvider>
+          )}
 
         </Providers>
       </body>
