@@ -1,23 +1,10 @@
+"use client";
+
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import useSWR from "swr";
 
-const specificationPoints = [
-  { label: "Charter Focus", value: "Long-range" },
-  { label: "Cabin", value: "Multi-zone" },
-  { label: "FEATURES", value: "TRI-JET" },
-  { label: "CAPACITY", value: "10–14 PASSENGERS" },
-  { label: "RANGE", value: "4,500 NM" },
-  { label: "COMFORT", value: "FULLY BERTHABLE SEATS" },
-];
-
-const nsopPoints = [
-  { label: "CHARTER AUTHORITY", value: "DGCA NSOP" },
-  { label: "AIRCRAFT TYPE", value: "FALCON 2000 SERIES" },
-  { label: "PRIMARY OPERATOR", value: "Skyblue Aero" },
-  { label: "FLEET IDS", value: "VT-ARF · VT-ARC · VT-ARO" },
-  { label: "SECONDARY OPERATOR", value: "AERO TRANS SERVICES" },
-  { label: "AIRCRAFT ID", value: "VT-CLF" },
-];
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Falcon900ExperienceSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -30,6 +17,8 @@ const Falcon900ExperienceSection: React.FC = () => {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  const { data: response, error, isLoading } = useSWR("/api/charter/falcon", fetcher);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -44,20 +33,9 @@ const Falcon900ExperienceSection: React.FC = () => {
 
   // ==========================================
   // 0. BACKGROUND SWITCH
-  // video stays for slide 1 and slide 2
-  // image starts only when blueprint reveal starts
   // ==========================================
-  const videoOpacity = useTransform(
-    smoothProgress,
-    [0, 0.54, 0.6, 1],
-    [1, 1, 0, 0]
-  );
-
-  const imageOpacity = useTransform(
-    smoothProgress,
-    [0, 0.54, 0.6, 1],
-    [0, 0, 1, 1]
-  );
+  const videoOpacity = useTransform(smoothProgress, [0, 0.54, 0.6, 1], [1, 1, 0, 0]);
+  const imageOpacity = useTransform(smoothProgress, [0, 0.54, 0.6, 1], [0, 0, 1, 1]);
 
   // ==========================================
   // 1. AIRCRAFT POSITIONING (MOBILE OPTIMIZED)
@@ -78,7 +56,6 @@ const Falcon900ExperienceSection: React.FC = () => {
 
   // ==========================================
   // 2. TEXT TRANSITIONS
-  // slide 1 to slide 2 happens in one quick scroll
   // ==========================================
   const phase1Y = useTransform(smoothProgress, [0.12, 0.26], ["0vh", "-100vh"]);
   const phase1Opacity = useTransform(smoothProgress, [0.12, 0.24], [1, 0]);
@@ -100,6 +77,24 @@ const Falcon900ExperienceSection: React.FC = () => {
     maskPosition,
     (p) => `linear-gradient(to bottom, black ${p}%, transparent ${p + 15}%)`
   );
+
+  // Handle Loading & Error states gracefully (keep ref attached so scroll doesn't break)
+  if (isLoading) {
+    return <section ref={sectionRef} className="relative h-[240vh] bg-[#06111D]" />;
+  }
+  
+  if (error || !response?.success) {
+    return (
+      <section ref={sectionRef} className="relative h-[240vh] bg-[#06111D] flex items-center justify-center text-white">
+        Failed to load section data.
+      </section>
+    );
+  }
+
+  // 🔹 Extract and sort dynamic data
+  const data = response.data;
+  const leftItems = [...(data.leftItems || [])].sort((a: any, b: any) => a.order - b.order);
+  const rightItems = [...(data.rightItems || [])].sort((a: any, b: any) => a.order - b.order);
 
   return (
     <section
@@ -128,8 +123,9 @@ const Falcon900ExperienceSection: React.FC = () => {
           style={{ opacity: imageOpacity }}
           className="absolute inset-0 z-0"
         >
+          {/* Dynamically loaded background image */}
           <img
-            src="/images/runway at night.webp"
+            src={data.backgroundImage || "/images/runway at night.webp"}
             alt="background"
             className="w-full h-full object-cover"
           />
@@ -138,7 +134,7 @@ const Falcon900ExperienceSection: React.FC = () => {
         {/* optional overlay for readability */}
         <div className="absolute inset-0 z-[1] bg-black/10" />
 
-        {/* PHASE 1 TEXT (Fly in Luxury) */}
+        {/* PHASE 1 TEXT (Fly in Luxury - Static) */}
         <motion.div
           style={{ y: phase1Y, opacity: phase1Opacity }}
           className="absolute inset-0 z-10 flex flex-col md:flex-row items-center justify-center md:justify-between px-6 md:px-16 lg:px-24 pointer-events-none"
@@ -159,7 +155,7 @@ const Falcon900ExperienceSection: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* PHASE 2 TEXT (Specifications) */}
+        {/* PHASE 2 TEXT (Dynamic Specifications) */}
         <motion.div
           style={{ y: phase2Y, opacity: phase2Opacity }}
           className="absolute inset-0 z-40 flex flex-col justify-between px-4 py-4 md:z-20 md:flex-row md:px-16 md:py-24 lg:px-24 pointer-events-none"
@@ -168,21 +164,21 @@ const Falcon900ExperienceSection: React.FC = () => {
           <div className="flex w-full flex-col justify-start md:justify-between md:max-w-[380px] h-auto md:h-full text-left md:text-left">
             <div className="mx-auto md:mx-0 max-w-[260px] md:max-w-none rounded-xl bg-white/28 px-3 py-2 backdrop-blur-[2px] md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-0">
               <p className="text-[11px] md:text-xl font-medium text-[#fff]/80 uppercase tracking-tight">
-                Dassault Falcon
+                {data.title}
               </p>
               <h3 className="mt-1 text-[clamp(2rem,8vw,6rem)] leading-[0.82] tracking-tighter">
-                900EX
+                {data.planeModel}
               </h3>
             </div>
 
             <div className="mt-3 w-full rounded-xl bg-white/28 px-3 py-3 backdrop-blur-[2px] md:mt-0 md:rounded-none md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-0">
               <h3 className="text-[14px] md:text-sm font-semibold uppercase mb-2">
-                Features
+                {data.leftGridTitle}
               </h3>
               <div className="h-px w-full bg-[#fff]/70 mb-3 md:mb-6" />
               <div className="grid grid-cols-2 md:grid-cols-2 gap-x-3 gap-y-3 md:gap-8">
-                {specificationPoints.map((item, i) => (
-                  <div key={i}>
+                {leftItems.map((item: any) => (
+                  <div key={item.id}>
                     <p className="text-[9px] md:text-[14px] font-bold uppercase text-[#fff]/90">
                       {item.label}
                     </p>
@@ -198,29 +194,24 @@ const Falcon900ExperienceSection: React.FC = () => {
           {/* Bottom/Right Section */}
           <div className="flex w-full flex-col justify-end md:justify-between md:max-w-[420px] h-auto md:h-full text-left md:text-left mt-3 md:mt-0">
             <div className="mx-auto md:mx-0 max-w-[880px] md:max-w-none rounded-xl bg-white/28 px-3 py-2 backdrop-blur-[2px] md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-0">
-              <h3 className="text-[1.35rem] md:text-[2rem] leading-[1.05] tracking-tight mb-2 text-center md:text-left">
-                Long-range
-                <br />
-                Private Aircraft
+              <h3 className="text-[1.35rem] md:text-[2rem] leading-[1.05] tracking-tight mb-2 text-center md:text-left whitespace-pre-line">
+                {data.subtitle}
               </h3>
 
-              <p className="text-justify md:text-left">
-                Engineered for performance and comfort, this tri-jet aircraft
-                offers multi-zone cabin configurations, intercontinental range,
-                and fully berthable seating—delivering a refined long-haul
-                experience for up to 14 passengers.
+              <p className="text-justify md:text-left whitespace-pre-line">
+                {data.description}
               </p>
             </div>
 
             <div className="mt-3 w-full rounded-xl bg-white/28 px-3 py-3 backdrop-blur-[2px] md:mt-0 md:rounded-none md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-0">
               <h3 className="text-[14px] md:text-sm font-semibold uppercase mb-2">
-                NSOP
+                {data.rightGridTitle}
               </h3>
 
               <div className="h-px w-full bg-[#fff]/70 mb-3 md:mb-6" />
               <div className="grid grid-cols-2 md:grid-cols-2 gap-x-3 gap-y-3 md:gap-8">
-                {nsopPoints.map((item, i) => (
-                  <div key={i}>
+                {rightItems.map((item: any) => (
+                  <div key={item.id}>
                     <p className="text-[9px] md:text-[14px] font-bold uppercase text-[#fff]/90">
                       {item.label}
                     </p>
@@ -250,7 +241,7 @@ const Falcon900ExperienceSection: React.FC = () => {
                 maskImage: planeMask,
               }}
               src="/images/falcon-900ex-top.png"
-              alt="Falcon 900EX top view"
+              alt={`${data.planeModel} top view`}
               className="w-auto h-[40vh] md:h-[90vh] object-contain"
             />
 
@@ -260,7 +251,7 @@ const Falcon900ExperienceSection: React.FC = () => {
                 maskImage: blueprintMask,
               }}
               src="/images/falcon-900ex-blueprint.png"
-              alt="Falcon 900EX blueprint"
+              alt={`${data.planeModel} blueprint`}
               className="absolute w-auto h-[40vh] md:h-[90vh] object-contain mix-blend-multiply opacity-90"
             />
           </motion.div>
