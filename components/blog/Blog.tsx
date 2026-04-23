@@ -1,42 +1,31 @@
 "use client";
 
+import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
 import SplitTextReveal from "@/components/motion/SplitTextReveal";
 import FadeUpStagger from "@/components/motion/FadeUpStagger";
 
-const posts = [
-  {
-    slug: "future-of-private-aviation",
-    title: "The Future of Private Aviation: Trends Shaping 2026",
-    excerpt:
-      "From sustainable aviation fuel to AI-powered operations, the landscape of private aviation is evolving rapidly.",
-    image: "/images/hero-jet.jpg",
-    date: "March 15, 2026",
-    category: "Industry",
-  },
-  {
-    slug: "choosing-right-aircraft",
-    title: "Choosing the Right Aircraft: A Buyer's Guide",
-    excerpt:
-      "Key considerations when selecting your first or next business aircraft.",
-    image: "/images/jet-interior.jpg",
-    date: "March 8, 2026",
-    category: "Brokerage",
-  },
-  {
-    slug: "international-trip-planning",
-    title: "Mastering International Trip Planning",
-    excerpt: "Behind the scenes of a complex international mission.",
-    image: "/images/jet-aerial.jpg",
-    date: "February 28, 2026",
-    category: "Operations",
-  },
-];
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Blog = () => {
+  const { data: response, error, isLoading } = useSWR("/api/blog", fetcher);
+
+  if (isLoading) return <div className="min-h-screen bg-brand-cream" />;
+  
+  if (error || response?.success === false) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-cream text-brand-navy">
+        Failed to load insights.
+      </div>
+    );
+  }
+
+  const posts = response?.data || [];
+
   return (
     <main className="bg-brand-cream min-h-screen">
+      {/* HERO SECTION */}
       <section className="relative h-[70vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
@@ -87,54 +76,63 @@ const Blog = () => {
         </div>
       </section>
 
+      {/* BLOG POSTS GRID */}
       <section className="py-10 md:py-20">
         <div className="max-w-350 mx-auto px-6 md:px-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.map((post) => (
-              <FadeUpStagger
-                key={post.slug}
-                className="border-t rounded-lg p-6"
-              >
-                <Link href={`/blog/${post.slug}`}>
-                  <article className="group cursor-pointer flex flex-col h-full">
-                    <div className="overflow-hidden mb-6 relative aspect-3/2 w-full">
-                      <Image
-                        src={post.image}
-                        alt={post.title}
-                        fill
-                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-brand-navy/0 group-hover:bg-brand-navy/10 transition-colors duration-500" />
-                    </div>
+            {posts.map((post: any) => {
+              const formattedDate = new Date(post.createdAt).toLocaleDateString(
+                "en-US",
+                { month: "long", day: "numeric", year: "numeric" }
+              );
 
-                    <div className="flex items-center gap-4 mb-4">
-                      <span className="font-body text-[10px] text-brand-gold tracking-[0.25em] uppercase font-semibold">
-                        {post.category}
-                      </span>
-                      <span className="w-1 h-1 rounded-full bg-brand-navy/20" />
-                      <span className="font-body text-[11px] text-brand-navy uppercase tracking-wider">
-                        {post.date}
-                      </span>
-                    </div>
+              return (
+                <FadeUpStagger
+                  key={post.slug}
+                  className="border-t border-brand-navy/10 rounded-lg p-6"
+                >
+                  <Link href={`/blog/${post.slug}`}>
+                    <article className="group cursor-pointer flex flex-col h-full">
+                      <div className="overflow-hidden mb-6 relative aspect-3/2 w-full">
+                        {/* Mapped to thumbnail from Prisma */}
+                        <Image
+                          src={post.thumbnail}
+                          alt={post.title}
+                          fill
+                          className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-brand-navy/0 group-hover:bg-brand-navy/10 transition-colors duration-500" />
+                      </div>
 
-                    <h2 className="font-display text-2xl text-brand-navy mb-4 group-hover:text-brand-gold transition-colors duration-300 leading-snug">
-                      {post.title}
-                    </h2>
+                      <div className="flex items-center gap-4 mb-4">
+                        <span className="font-body text-[10px] text-brand-gold tracking-[0.25em] uppercase font-semibold">
+                          {post.category}
+                        </span>
+                        <span className="w-1 h-1 rounded-full bg-brand-navy/20" />
+                        <span className="font-body text-[11px] text-brand-navy uppercase tracking-wider">
+                          {formattedDate}
+                        </span>
+                      </div>
 
-                    <p className="font-body text-sm leading-relaxed mb-6 grow">
-                      {post.excerpt}
-                    </p>
+                      <h2 className="font-display text-2xl text-brand-navy mb-4 group-hover:text-brand-gold transition-colors duration-300 leading-snug">
+                        {post.title}
+                      </h2>
 
-                    <div className="flex items-center gap-2 font-body text-[11px] text-brand-navy uppercase tracking-[0.2em] font-bold group-hover:text-brand-gold transition-colors duration-300">
-                      Read Article
-                      <span className="translate-x-0 group-hover:translate-x-2 transition-transform duration-300">
-                        →
-                      </span>
-                    </div>
-                  </article>
-                </Link>
-              </FadeUpStagger>
-            ))}
+                      <p className="font-body text-sm leading-relaxed mb-6 grow text-brand-navy/80">
+                        {post.excerpt}
+                      </p>
+
+                      <div className="flex items-center gap-2 font-body text-[11px] text-brand-navy uppercase tracking-[0.2em] font-bold group-hover:text-brand-gold transition-colors duration-300">
+                        Read Article
+                        <span className="translate-x-0 group-hover:translate-x-2 transition-transform duration-300">
+                          →
+                        </span>
+                      </div>
+                    </article>
+                  </Link>
+                </FadeUpStagger>
+              );
+            })}
           </div>
         </div>
       </section>

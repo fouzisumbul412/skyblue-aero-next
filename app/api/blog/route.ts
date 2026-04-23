@@ -9,8 +9,12 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const searchQuery = searchParams.get("search");
+    const relatedCategory = searchParams.get("related");
+    const excludeSlug = searchParams.get("exclude");
+    const limit = searchParams.get("limit");
 
     const whereClause: any = {};
+    
     if (!isAdmin) {
       whereClause.published = true;
     }
@@ -23,20 +27,20 @@ export async function GET(req: NextRequest) {
       ];
     }
 
+    if (relatedCategory) {
+      whereClause.category = relatedCategory;
+    }
+
+    if (excludeSlug) {
+      whereClause.slug = { not: excludeSlug };
+    }
+
+    const takeCount = limit ? parseInt(limit, 10) : (relatedCategory ? 5 : undefined);
+
     const posts = await prisma.blogPost.findMany({
       where: whereClause,
       orderBy: { createdAt: "desc" },
-      select: {
-        id: true,
-        slug: true,
-        title: true,
-        excerpt: true,
-        thumbnail: true,
-        category: true,
-        published: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      take: takeCount, 
     });
 
     return NextResponse.json({ success: true, data: posts }, { status: 200 });

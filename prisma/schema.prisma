@@ -126,6 +126,8 @@ model BlogPost {
   thumbnail String   
   category String
   content String @db.Text
+  author String @default("Skyblue Aero")
+  readTime String @default("5 min read")
   published Boolean @default(false)
 
   createdAt DateTime @default(now())

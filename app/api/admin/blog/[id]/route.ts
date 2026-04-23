@@ -10,6 +10,8 @@ const blogSchema = z.object({
   excerpt: z.string().min(1, "Excerpt is required"),
   content: z.string().min(1, "Content is required"),
   published: z.preprocess((val) => val === 'true' || val === true, z.boolean().default(false)),
+  author: z.string().min(1, "Author is required"),
+  readTime: z.string().min(1, "Read time is required"), 
   slug: z.string().optional(),
 });
 
@@ -35,13 +37,15 @@ export async function PUT( req: NextRequest, { params }: { params: Promise<{ id:
       content: formData.get("content"),
       published: formData.get("published"),
       slug: formData.get("slug") || undefined,
+      author: formData.get("author"),
+      readTime: formData.get("readTime"),
     });
 
     if (!validation.success) {
       return NextResponse.json({ success: false, message: validation.error.issues[0].message }, { status: 400 });
     }
 
-    const { title, category, excerpt, content, published, slug: manualSlug } = validation.data;
+    const { title, category, excerpt, content, published, slug: manualSlug, author, readTime } = validation.data;
 
     const baseForSlug = (manualSlug && manualSlug.trim().length > 0) ? manualSlug : title;
     const newSlug = baseForSlug.toLowerCase().trim().replace(/ /g, '-').replace(/[^\w-]+/g, '');
@@ -61,7 +65,8 @@ export async function PUT( req: NextRequest, { params }: { params: Promise<{ id:
 
     await prisma.blogPost.update({
       where: { id },
-      data: { title, category, excerpt, content, published, slug: newSlug, thumbnail: thumbnailPath },
+      data: { title, category, excerpt, content, published, 
+      slug: newSlug, thumbnail: thumbnailPath, author, readTime },
     });
 
     return NextResponse.json({ success: true, message: "Blog updated successfully" }, { status: 200 });
