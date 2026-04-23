@@ -71,7 +71,7 @@ export default function ContactPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // 🔹 Submit
+  // 🔹 Submit (Updated to hit new Next.js API)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -80,18 +80,24 @@ export default function ContactPage() {
     setSubmitting(true);
 
     try {
-      await fetch(
-        "https://script.google.com/macros/s/AKfycbz7owVzSx_BwRm2MSTn6TYEcrOsev3BaAfutx7yKovCJWq6sAxabn-j8gLVvDwk7ccx/exec",
-        {
-          method: "POST",
-          mode: "no-cors",
-          body: JSON.stringify({
-            ...formState,
-            formType: "Contact Page",
-            timestamp: new Date().toISOString(),
-          }),
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          fullName: formState.fullName,
+          phone: formState.phone,
+          email: formState.email,
+          message: formState.message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to submit request");
+      }
 
       toast.success("Request sent successfully 🚀");
 
@@ -101,9 +107,8 @@ export default function ContactPage() {
         email: "",
         message: "",
       });
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to send ❌");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to send ❌");
     }
 
     setSubmitting(false);
@@ -111,7 +116,6 @@ export default function ContactPage() {
 
   return (
     <main className="bg-[#F6F4EF] overflow-hidden">
-      {/* ════════════════════════════════ HERO ═══════════════════════════════ */}
       <section className="relative h-[40vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0">

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { pushLeadToZoho } from "@/lib/zoho";
+import { sendEmail } from "@/lib/mailer";
+import { getAdminNotificationTemplate, getUserConfirmationTemplate } from "@/lib/templates";
 import z from "zod";
 
 const quoteSchema = z.object({
@@ -36,12 +38,25 @@ export async function POST(req: NextRequest) {
       Description: message,
       Lead_Source: "Website Contact Form"
     };
-
+    
     const isSynced = await pushLeadToZoho(zohoPayload);
-
     if (isSynced) {
       await prisma.quoteRequest.update({ where: { id: quote.id }, data: { zohoSynced: true } });
     }
+
+    if (process.env.MAIL_RECEIVER) {
+      await sendEmail({
+        to: process.env.MAIL_RECEIVER,
+        subject: "New Flight/Quote Request Received",
+        html: getAdminNotificationTemplate(fullName, email, message),
+      });
+    }
+
+    await sendEmail({
+      to: email,
+      subject: "Your Request Has Been Received - Skyblue Aero",
+      html: getUserConfirmationTemplate(firstName || fullName, message),
+    });
 
     return NextResponse.json({ success: true, message: "Quote requested successfully" }, { status: 201 });
 
