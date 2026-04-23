@@ -1,41 +1,30 @@
 "use client";
 
 import { useState } from "react";
+import useSWR from "swr";
 import { motion, AnimatePresence } from "framer-motion";
 import SplitTextReveal from "@/components/motion/SplitTextReveal";
 import Image from "next/image";
 import FadeUpStagger from "../motion/FadeUpStagger";
 
-const images = [
-  "/images/gallery/1.jpg",
-  "/images/gallery/Diwan Seats.JPG",
-  "/images/gallery/Executive Lounge Chair.JPG",
-  "/images/gallery/Executive Lounge Chairs.JPG",
-  "/images/gallery/Executive Lounge_Fwd.JPG",
-  "/images/gallery/Front Left.JPG",
-  "/images/gallery/Fwd Cabin.JPG",
-  "/images/gallery/Head on Pic.JPG",
-  "/images/gallery/Middle Club Seats_Fwd Dacing.JPG",
-  "/images/gallery/Middle Club Seats_Rear Facing.JPG",
-  "/images/gallery/Nose_Left.JPG",
-  "/images/gallery/Reg No.JPG",
-  "/images/gallery/Side Pic_Left.JPG",
-  "/images/gallery/Side Pic_Right.JPG",
-  "/images/gallery/Side Pic_RWY.JPG",
-  "/images/gallery/Side Profile.JPG",
-  "/images/gallery/TEM09531.jpg",
-  "/images/gallery/TEM09537.jpg",
-  "/images/gallery/TEM09541.jpg",
-  "/images/gallery/TEM09545.jpg",
-  "/images/gallery/TEM09548.jpg",
-  "/images/gallery/TEM09561.jpg",
-  "/images/gallery/TEM09576.jpg",
-  "/images/gallery/TEM09579.jpg",
-  "/images/gallery/TEM09606.jpg",
-];
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Gallery() {
   const [index, setIndex] = useState<number | null>(null);
+
+  const { data: response, isLoading, error } = useSWR("/api/gallery", fetcher);
+
+  if (isLoading) return <div className="min-h-screen bg-brand-cream" />;
+  
+  if (error || response?.success === false) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-cream text-brand-navy">
+        Failed to load gallery.
+      </div>
+    );
+  }
+
+  const images = response?.data || [];
 
   const next = () => setIndex((prev) => ((prev ?? 0) + 1) % images.length);
 
@@ -99,6 +88,7 @@ export default function Gallery() {
           </FadeUpStagger>
         </div>
       </section>
+
       <section className="bg-brand-cream py-10 md:py-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <SplitTextReveal
@@ -110,16 +100,17 @@ export default function Gallery() {
 
           {/* MASONRY GRID */}
           <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-            {images.map((src, i) => (
+            {images.map((img: any, i: number) => (
               <motion.div
-                key={i}
+                key={img.id}
                 layoutId={`image-${i}`}
                 className="overflow-hidden rounded-xl cursor-pointer break-inside-avoid"
                 onClick={() => setIndex(i)}
                 whileHover={{ scale: 1.03 }}
               >
+                {/* Changed src to img.url */}
                 <img
-                  src={src}
+                  src={img.url}
                   alt={`gallery-${i}`}
                   className="w-full object-cover rounded-xl"
                   loading="lazy"
@@ -132,7 +123,7 @@ export default function Gallery() {
 
       {/* LIGHTBOX */}
       <AnimatePresence>
-        {index !== null && (
+        {index !== null && images.length > 0 && (
           <motion.div
             className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center"
             initial={{ opacity: 0 }}
@@ -150,7 +141,7 @@ export default function Gallery() {
             {/* IMAGE */}
             <motion.img
               key={index}
-              src={images[index]}
+              src={images[index].url}
               layoutId={`image-${index}`}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
