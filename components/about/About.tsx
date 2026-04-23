@@ -1,23 +1,33 @@
 "use client";
 
+import useSWR from "swr";
 import Image from "next/image";
 import SplitTextReveal from "@/components/motion/SplitTextReveal";
 import FadeUpStagger from "@/components/motion/FadeUpStagger";
 import ClipReveal from "@/components/motion/ClipReveal";
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 const About = () => {
+  const { data: response, error, isLoading } = useSWR("/api/about", fetcher);
+
+  if (isLoading) return <div className="min-h-screen bg-brand-cream" />;
+  if (error || !response?.success) return <div className="min-h-screen text-center py-20">Failed to load data</div>;
+
+  const aboutData = response.data;
+
   return (
     <main>
+      {/* HERO SECTION */}
       <section className="relative h-[80vh] flex items-end overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/jet-aerial.jpg"
+            src={aboutData.heroImage || "/images/jet-aerial.jpg"}
             alt="Aviation crew"
             fill
             priority
             className="object-cover object-top scale-105"
           />
-
           <div className="absolute inset-0 bg-[#06111D]/45" />
           <div className="absolute inset-0 bg-linear-to-b from-[#06111D]/20 via-[#06111D]/35 to-[#06111D]/80" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(215,163,77,0.18),transparent_40%)]" />
@@ -35,54 +45,40 @@ const About = () => {
 
         <div className="relative z-10 max-w-350 mx-auto w-full px-6 md:px-10 pb-16 md:pb-24">
           <p className="font-body text-brand-gold text-xs tracking-[0.3em] uppercase mb-4">
-            About Us
+            {aboutData.heroSubtitle}
           </p>
+          {/* Key forces the animation to re-run if data changes */}
           <SplitTextReveal
+            key={aboutData.heroTitle}
             as="h1"
             className="text-fluid-heading font-display font-bold text-brand-cream"
           >
-            Built on Trust. Driven by Excellence.
+            {aboutData.heroTitle}
           </SplitTextReveal>
         </div>
       </section>
 
+      {/* STORY SECTION */}
       <section className="bg-brand-cream py-10 md:py-24">
         <div className="max-w-350 mx-auto px-6 md:px-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <FadeUpStagger>
             <p className="font-body text-brand-gold text-xs tracking-[0.3em] uppercase mb-4">
-              Our Story
+              {aboutData.title}
             </p>
-            <h2 className="font-display text-fluid-subheading font-bold text-brand-navy mb-6">
-              Aviation Expertise,
-              <br />
-              Delivered with Precision.
+            <h2 className="font-display text-fluid-subheading font-bold text-brand-navy mb-6 whitespace-pre-line">
+              {aboutData.storyHeading}
             </h2>
-            <p className="font-body text-brand-navy/70 text-base leading-relaxed mb-4">
-              SkyBlue Aero is an aviation services company owned by Captain
-              Sylvester Vijay Moni, bringing over 15 years of industry
-              experience. The company is built on practical expertise, strong
-              global connections, and a deep understanding of aviation
-              operations. At its core, SkyBlue Aero focuses on simplifying
-              aviation for its clients. From international trip support and
-              flight planning to fuel coordination, ground handling, and charter
-              assistance, the team ensures smooth and reliable operations across
-              every stage of a journey.
-            </p>
-            <p className="font-body text-brand-navy/60 text-base leading-relaxed">
-              With a trusted global network of professionals—including pilots,
-              engineers, and operational teams—SkyBlue Aero works closely with
-              aircraft owners and operators to deliver efficient, compliant, and
-              well-coordinated aviation solutions. With a commitment to
-              professionalism, compliance, and operational excellence, SkyBlue
-              Aero simplifies the complexities of aviation, allowing clients to
-              focus on what matters most—flying with confidence and efficiency..
-            </p>
+            {aboutData.content.split('\n').map((paragraph: string, index: number) => (
+              <p key={index} className="font-body text-brand-navy/70 text-base leading-relaxed mb-4">
+                {paragraph}
+              </p>
+            ))}
           </FadeUpStagger>
 
           <ClipReveal direction="left">
             <div className="relative w-full aspect-4/3">
               <Image
-                src="/images/crew.jpg"
+                src={aboutData.image || "/images/crew.jpg"}
                 alt="Our team"
                 fill
                 className="object-cover"
@@ -92,6 +88,7 @@ const About = () => {
         </div>
       </section>
 
+      {/* VALUES SECTION */}
       <section className="bg-brand-cream py-10 border-t border-brand-navy/08">
         <div className="max-w-350 mx-auto px-6 md:px-10">
           <div className="text-center mb-16">
@@ -107,28 +104,16 @@ const About = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Safety First",
-                desc: "Every decision, recommendation, and operation is evaluated through the lens of safety — no exceptions, no compromise.",
-              },
-              {
-                title: "Client Focus",
-                desc: "We work as an extension of your team, aligning every solution to your operational priorities and business objectives.",
-              },
-              {
-                title: "Integrity",
-                desc: "Transparent communication, honest advice, and ethical operations form the foundation of every client relationship.",
-              },
-            ].map((v) => (
-              <FadeUpStagger key={v.title}>
+            {/* Map over the live values from the database */}
+            {aboutData.values.map((v: any) => (
+              <FadeUpStagger key={v.id}>
                 <div className="text-center px-6">
                   <div className="w-10 h-px bg-brand-gold mx-auto mb-6" />
                   <h3 className="font-display text-xl font-bold text-brand-navy mb-4">
                     {v.title}
                   </h3>
                   <p className="font-body text-brand-navy/60 text-sm leading-relaxed">
-                    {v.desc}
+                    {v.description}
                   </p>
                 </div>
               </FadeUpStagger>

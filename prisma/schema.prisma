@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  password String
+  name String?
+  role Role @default(USER)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HomeFalconSection {
+  id String @id @default(uuid())
+  
+  title String @default("DASSAULT FALCON")
+  planeModel String @default("900EX") 
+  subtitle String @default("LONG-RANGE PRIVATE AIRCRAFT")
+  description String @db.Text
+  backgroundImage String
+  
+  leftGridTitle String @default("FEATURES")
+  rightGridTitle String @default("NSOP")
+  updatedAt DateTime @updatedAt
+
+  gridItems FalconGridItem[]
+}
+
+model FalconGridItem {
+  id String @id @default(uuid())
+  sectionId String
+  
+  side String
+  label String
+  value String
+  order Int @default(0)
+
+  section HomeFalconSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+}
+
+
+model HomeServicesConfig {
+  id String @id @default(uuid())
+  title String 
+  updatedAt DateTime @updatedAt
+
+  cards HomeServiceCard[]
+}
+
+model HomeServiceCard {
+  id String @id @default(uuid())
+  configId String
+  title String
+  description String @db.Text
+  order Int @default(0)
+  
+  config HomeServicesConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+}
+
+model AboutPage {
+  id String @id @default(uuid())
+
+  heroTitle String
+  heroSubtitle String
+  heroImage String
+
+  title String
+  storyHeading String
+  content String @db.Text
+  image String
+
+  updatedAt DateTime @updatedAt
+  
+  counters AboutCounter[]
+  values AboutValue[]
+}
+
+model AboutCounter {
+  id String @id @default(uuid())
+  aboutPageId String
+
+  label String
+  endValue Int
+  suffix String?
+  order Int @default(0)
+
+  aboutPage AboutPage @relation(fields: [aboutPageId], references: [id], onDelete: Cascade)
+}
+
+model AboutValue {
+  id String @id @default(uuid())
+
+  aboutPageId String
+  title String
+  description String @db.Text
+  order Int @default(0)
+  
+  aboutPage AboutPage @relation(fields: [aboutPageId], references: [id], onDelete: Cascade)
+}
+
+model GalleryImage {
+  id String @id @default(uuid())
+  url String
+  order Int @default(0) 
+  createdAt DateTime @default(now())
+}
+
+model BlogPost {
+  id String @id @default(uuid())
+
+  slug String @unique
+  title String
+  excerpt String @db.Text
+  thumbnail String   
+  category String
+  content String @db.Text
+  published Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ZohoAuth {
+  id String @id @default("zoho_token")
+  accessToken String @db.Text
+  expiresAt DateTime
+  updatedAt DateTime @updatedAt
+}
+
+model QuoteRequest {
+  id String @id @default(uuid())
+
+  fullName String
+  phone String
+  email String
+  message String @db.Text
+
+  zohoSynced Boolean @default(false)
+  createdAt DateTime @default(now())
+}
+
+model CharterRequest {
+  id String @id @default(uuid())
+
+  name String
+  email String
+  phone String
+  departure String
+  arriving String
+  passengers String
+  departureDate DateTime
+  returnDate DateTime?
+
+  zohoSynced Boolean @default(false)
+  createdAt DateTime @default(now())
+}
