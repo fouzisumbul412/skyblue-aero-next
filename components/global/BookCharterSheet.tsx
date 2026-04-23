@@ -46,10 +46,7 @@ const initialValues: FormValues = {
   privacyAccepted: false,
 };
 
-const BookCharterSheet = ({
-  isOpen,
-  onClose,
-}: BookCharterSheetProps) => {
+const BookCharterSheet = ({ isOpen, onClose }: BookCharterSheetProps) => {
   const [mounted, setMounted] = useState(false);
   const [isReturnFlight, setIsReturnFlight] = useState(false);
   const [formValues, setFormValues] = useState<FormValues>(initialValues);
@@ -191,44 +188,57 @@ const BookCharterSheet = ({
     handleFieldChange("phone", sanitizedValue);
   };
 
- const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault();
-  setHasSubmitted(true);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setHasSubmitted(true);
 
-  const errors = validateForm(formValues, isReturnFlight);
-  setFormErrors(errors);
+    const errors = validateForm(formValues, isReturnFlight);
+    setFormErrors(errors);
 
-  if (Object.keys(errors).length > 0) return;
+    if (Object.keys(errors).length > 0) return;
 
-  setSubmitting(true);
+    setSubmitting(true);
 
-  try {
-    await fetch(
-      "https://script.google.com/macros/s/AKfycbz7owVzSx_BwRm2MSTn6TYEcrOsev3BaAfutx7yKovCJWq6sAxabn-j8gLVvDwk7ccx/exec",
-      {
-        method: "POST",
-        mode: "no-cors", // 🔥 IMPORTANT
-        body: JSON.stringify({
-          ...formValues,
-          formType: "Book Charter",
-          timestamp: new Date().toISOString(),
-        }),
+    try {
+      const payload: any = {
+        name: formValues.name,
+        email: formValues.email,
+        phone: formValues.phone,
+        departure: formValues.departure,
+        arriving: formValues.arriving,
+        passengers: formValues.passengers,
+        departureDate: formValues.departureDate,
+      };
+
+      if (isReturnFlight && formValues.returnDate) {
+        payload.returnDate = formValues.returnDate;
       }
-    );
 
-    // toast.success("Charter request submitted ✈️");
-setShowSuccessModal(true);
-onClose();
-    setFormValues(initialValues);
-    setHasSubmitted(false);
+      const response = await fetch("/api/charter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-  } catch (error) {
-    console.error(error);
-    toast.error("Submission failed ❌");
-  }
+      const data = await response.json();
 
-  setSubmitting(false);
-};
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to submit charter request");
+      }
+
+      setShowSuccessModal(true);
+      onClose();
+      setFormValues(initialValues);
+      setHasSubmitted(false);
+    } catch (error: any) {
+      console.error("Submission Error:", error);
+      toast.error(error.message || "Submission failed ❌");
+    }
+
+    setSubmitting(false);
+  };
 
   if (!mounted) return null;
 
@@ -329,7 +339,9 @@ onClose();
                           type="text"
                           inputMode="tel"
                           value={formValues.phone}
-                          onChange={(event) => handlePhoneChange(event.target.value)}
+                          onChange={(event) =>
+                            handlePhoneChange(event.target.value)
+                          }
                           placeholder="Phone..."
                           className={inputClassName}
                           required
@@ -356,7 +368,9 @@ onClose();
                           required
                         />
                         {formErrors.departure && (
-                          <p className={errorClassName}>{formErrors.departure}</p>
+                          <p className={errorClassName}>
+                            {formErrors.departure}
+                          </p>
                         )}
                       </div>
 
@@ -399,12 +413,17 @@ onClose();
                           required
                         />
                         {formErrors.passengers && (
-                          <p className={errorClassName}>{formErrors.passengers}</p>
+                          <p className={errorClassName}>
+                            {formErrors.passengers}
+                          </p>
                         )}
                       </div>
 
                       <div className={fieldClassName}>
-                        <label htmlFor="departureDate" className={labelClassName}>
+                        <label
+                          htmlFor="departureDate"
+                          className={labelClassName}
+                        >
                           DEPARTURE DATE
                         </label>
                         <input
@@ -413,7 +432,10 @@ onClose();
                           type="date"
                           value={formValues.departureDate}
                           onChange={(event) =>
-                            handleFieldChange("departureDate", event.target.value)
+                            handleFieldChange(
+                              "departureDate",
+                              event.target.value
+                            )
                           }
                           className={dateInputClassName}
                           required
@@ -428,7 +450,10 @@ onClose();
                       <div className={fieldClassName}>
                         <div className="flex items-center justify-between gap-2">
                           <div className="min-w-0">
-                            <label htmlFor="return-toggle" className={labelClassName}>
+                            <label
+                              htmlFor="return-toggle"
+                              className={labelClassName}
+                            >
                               RETURN
                             </label>
                             <p className="text-[13px] text-gray-400">
@@ -456,7 +481,10 @@ onClose();
 
                       {isReturnFlight ? (
                         <div className={fieldClassName}>
-                          <label htmlFor="returnDate" className={labelClassName}>
+                          <label
+                            htmlFor="returnDate"
+                            className={labelClassName}
+                          >
                             RETURN DATE
                           </label>
                           <input
@@ -465,7 +493,10 @@ onClose();
                             type="date"
                             value={formValues.returnDate}
                             onChange={(event) =>
-                              handleFieldChange("returnDate", event.target.value)
+                              handleFieldChange(
+                                "returnDate",
+                                event.target.value
+                              )
                             }
                             className={dateInputClassName}
                             required={isReturnFlight}
@@ -479,48 +510,48 @@ onClose();
                       ) : (
                         <div className="flex items-end justify-end xl:justify-start">
                           <button
-  type="submit"
-  disabled={!isSubmitEnabled || submitting}
-  className={`flex h-10 min-w-[104px] items-center justify-center gap-2 rounded-full px-3 text-white transition md:h-12 md:min-w-[118px] md:px-4 ${
-    isSubmitEnabled && !submitting
-      ? "bg-[#2E2523] hover:scale-105"
-      : "cursor-not-allowed bg-[#2E2523]/40"
-  }`}
->
-  {submitting ? (
-    <Loader2 className="animate-spin" size={16} />
-  ) : (
-    <Plane size={16} />
-  )}
+                            type="submit"
+                            disabled={!isSubmitEnabled || submitting}
+                            className={`flex h-10 min-w-[104px] items-center justify-center gap-2 rounded-full px-3 text-white transition md:h-12 md:min-w-[118px] md:px-4 ${
+                              isSubmitEnabled && !submitting
+                                ? "bg-[#2E2523] hover:scale-105"
+                                : "cursor-not-allowed bg-[#2E2523]/40"
+                            }`}
+                          >
+                            {submitting ? (
+                              <Loader2 className="animate-spin" size={16} />
+                            ) : (
+                              <Plane size={16} />
+                            )}
 
-  <span className="text-xs md:text-sm">
-    {submitting ? "Submitting..." : "Submit"}
-  </span>
-</button>
+                            <span className="text-xs md:text-sm">
+                              {submitting ? "Submitting..." : "Submit"}
+                            </span>
+                          </button>
                         </div>
                       )}
 
                       {isReturnFlight && (
                         <div className="flex items-end justify-end xl:justify-start">
                           <button
-  type="submit"
-  disabled={!isSubmitEnabled || submitting}
-  className={`flex h-10 min-w-[104px] items-center justify-center gap-2 rounded-full px-3 text-white transition md:h-12 md:min-w-[118px] md:px-4 ${
-    isSubmitEnabled && !submitting
-      ? "bg-[#2E2523] hover:scale-105"
-      : "cursor-not-allowed bg-[#2E2523]/40"
-  }`}
->
-  {submitting ? (
-    <Loader2 className="animate-spin" size={16} />
-  ) : (
-    <Plane size={16} />
-  )}
+                            type="submit"
+                            disabled={!isSubmitEnabled || submitting}
+                            className={`flex h-10 min-w-[104px] items-center justify-center gap-2 rounded-full px-3 text-white transition md:h-12 md:min-w-[118px] md:px-4 ${
+                              isSubmitEnabled && !submitting
+                                ? "bg-[#2E2523] hover:scale-105"
+                                : "cursor-not-allowed bg-[#2E2523]/40"
+                            }`}
+                          >
+                            {submitting ? (
+                              <Loader2 className="animate-spin" size={16} />
+                            ) : (
+                              <Plane size={16} />
+                            )}
 
-  <span className="text-xs md:text-sm">
-    {submitting ? "Submitting..." : "Submit"}
-  </span>
-</button>
+                            <span className="text-xs md:text-sm">
+                              {submitting ? "Submitting..." : "Submit"}
+                            </span>
+                          </button>
                         </div>
                       )}
                     </div>
@@ -559,57 +590,54 @@ onClose();
         )}
       </AnimatePresence>
       <AnimatePresence>
-  {showSuccessModal && (
-    <>
-      {/* Overlay */}
-      <motion.div
-        className="fixed inset-0 z-[10000] bg-black/50"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      />
+        {showSuccessModal && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              className="fixed inset-0 z-[10000] bg-black/50"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
 
-      {/* Modal */}
-      <motion.div
-        className="fixed inset-0 z-[10001] flex items-center justify-center px-4"
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="relative w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-xl">
-          
-          {/* Close Button */}
-          <button
-            onClick={() => setShowSuccessModal(false)}
-            className="absolute right-3 top-3 rounded-full p-1 hover:bg-gray-100"
-          >
-            <X size={18} />
-          </button>
+            {/* Modal */}
+            <motion.div
+              className="fixed inset-0 z-[10001] flex items-center justify-center px-4"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="relative w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-xl">
+                {/* Close Button */}
+                <button
+                  onClick={() => setShowSuccessModal(false)}
+                  className="absolute right-3 top-3 rounded-full p-1 hover:bg-gray-100"
+                >
+                  <X size={18} />
+                </button>
 
-          {/* Content */}
-          <h3 className="text-xl font-semibold mb-2">
-            ✈️ Thank You!
-          </h3>
+                {/* Content */}
+                <h3 className="text-xl font-semibold mb-2">✈️ Thank You!</h3>
 
-          <p className="text-gray-600 text-sm md:text-base">
-            Your charter request has been submitted successfully.
-            <br />
-            We will connect with you soon.
-          </p>
+                <p className="text-gray-600 text-sm md:text-base">
+                  Your charter request has been submitted successfully.
+                  <br />
+                  We will connect with you soon.
+                </p>
 
-          {/* CTA */}
-          <button
-            onClick={() => setShowSuccessModal(false)}
-            className="mt-5 rounded-full bg-[#2E2523] px-5 py-2 text-white hover:scale-105 transition"
-          >
-            Close
-          </button>
-        </div>
-      </motion.div>
-    </>
-  )}
-</AnimatePresence>
+                {/* CTA */}
+                <button
+                  onClick={() => setShowSuccessModal(false)}
+                  className="mt-5 rounded-full bg-[#2E2523] px-5 py-2 text-white hover:scale-105 transition"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       <style>{`
         .no-scrollbar::-webkit-scrollbar {

@@ -1,72 +1,20 @@
+"use client";
+
 import React, { ElementType, useEffect, useRef, useState } from "react";
+import useSWR from "swr";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Plane } from "lucide-react";
 
-type ServiceItem = {
-  title: string;
-  description: string;
-  className: string;
-  delay: number;
-  link?: string;
-  cardAos: string;
-};
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const services: ServiceItem[] = [
-  {
-    title: "Trip Support",
-    description:
-      "Comprehensive global trip support covering permits, fuel coordination, ground handling, and logistics—ensuring every flight operates with precision across all destinations.",
-    className: "",
-    delay: 50,
-    link: "/trip-support",
-    cardAos: "fade-right",
-  },
-  {
-    title: "Air Charters",
-    description:
-      "Charter private aircraft on demand with access to a worldwide fleet. Experience unmatched flexibility, complete privacy, and a journey tailored entirely around your schedule.",
-    className: "",
-    delay: 140,
-    link: "/charters",
-    cardAos: "fade-up",
-  },
-  {
-    title: "Aircraft Brokerage",
-    description:
-      "Specialized aircraft brokerage for acquisition, sale, and leasing—connecting you with the right opportunities through a trusted global network.",
-    className: "",
-    delay: 230,
-    link: "/brokerage",
-    cardAos: "fade-left",
-  },
-  {
-    title: "Aircraft Maintenance",
-    description:
-      "Dependable maintenance solutions that uphold the highest standards of safety, compliance, and performance—delivered with meticulous attention to detail.",
-    className: "",
-    delay: 320,
-    link: "/maintenance",
-    cardAos: "fade-up-right",
-  },
-  {
-    title: "Crew Leasing",
-    description:
-      "Access highly trained pilots and cabin crew who bring professionalism, safety, and world-class service to every operation.",
-    className: "",
-    delay: 410,
-    link: "/crew-leasing",
-    cardAos: "fade-up-left",
-  },
-  {
-    title: "Contract Fuel",
-    description:
-      "We provide you with a single source global fuel supply at over 4000 world-wide locations, at discounted rates. Every single fuel uplift is coordinated by our 24x7 Ops Team ensuring prompt service at the bay.",
-    className: "",
-    delay: 500,
-    link: "/contract-fuel",
-    cardAos: "fade-up",
-  },
+const uiConfigs = [
+  { delay: 50, link: "/trip-support", cardAos: "fade-right" },
+  { delay: 140, link: "/charters", cardAos: "fade-up" },
+  { delay: 230, link: "/brokerage", cardAos: "fade-left" },
+  { delay: 320, link: "/maintenance", cardAos: "fade-up-right" },
+  { delay: 410, link: "/crew-leasing", cardAos: "fade-up-left" },
+  { delay: 500, link: "/contract-fuel", cardAos: "fade-up" },
 ];
 
 type TypewriterTextProps = {
@@ -114,24 +62,24 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
     return () => observer.disconnect();
   }, []);
 
-useEffect(() => {
-  if (!isVisible) return;
+  useEffect(() => {
+    if (!isVisible) return;
 
-  if (displayText.length >= text.length) {
-    setIsComplete(true);
-    onComplete?.(); // 👈 TRIGGER CALLBACK
-    return;
-  }
+    if (displayText.length >= text.length) {
+      setIsComplete(true);
+      onComplete?.();
+      return;
+    }
 
-  const timeout = window.setTimeout(
-    () => {
-      setDisplayText(text.slice(0, displayText.length + 1));
-    },
-    displayText.length === 0 ? startDelay : speed
-  );
+    const timeout = window.setTimeout(
+      () => {
+        setDisplayText(text.slice(0, displayText.length + 1));
+      },
+      displayText.length === 0 ? startDelay : speed
+    );
 
-  return () => window.clearTimeout(timeout);
-}, [displayText, isVisible, speed, startDelay, text, onComplete]);
+    return () => window.clearTimeout(timeout);
+  }, [displayText, isVisible, speed, startDelay, text, onComplete]);
 
   return (
     <div ref={wrapperRef}>
@@ -144,7 +92,6 @@ useEffect(() => {
     </div>
   );
 };
-
 
 const MovingPlanes: React.FC = () => {
   return (
@@ -185,7 +132,6 @@ type ServiceCardProps = {
 };
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
-  
   title,
   description,
   className = "",
@@ -206,15 +152,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       <CornerPlusIcons />
 
       <div className="relative z-10">
-        <div
-          data-aos="fade-down"
-          data-aos-delay={delay + 120}
-          data-aos-duration="700"
-          data-aos-easing="ease-out-cubic"
-        >
-          {/* <MovingPlanes /> */}
-        </div>
-
         <h3
           data-aos="fade-up"
           data-aos-delay={delay + 180}
@@ -289,6 +226,9 @@ const PlusIcon = ({ className = "" }: { className?: string }) => {
 
 const ServicesSection: React.FC = () => {
   const [showCards, setShowCards] = useState(false);
+
+  const { data: response, error, isLoading } = useSWR("/api/home/services", fetcher);
+
   useEffect(() => {
     AOS.init({
       once: false,
@@ -314,8 +254,13 @@ const ServicesSection: React.FC = () => {
     };
   }, []);
 
+  // Determine title and sort cards
+  const sectionTitle = response?.data?.title || "Aviation Solutions, Precisely Tailored to Every Journey";
+  const apiCards = response?.data?.cards || [];
+  const sortedCards = [...apiCards].sort((a: any, b: any) => a.order - b.order);
+
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24">
+    <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24 min-h-screen">
       <video
         className="absolute inset-0 h-full w-full object-cover"
         autoPlay
@@ -326,8 +271,6 @@ const ServicesSection: React.FC = () => {
       >
         <source src="/images/sky.mp4" type="video/mp4" />
       </video>
-
-      {/* <div className="absolute inset-0 bg-black/40" /> */}
 
       <div className="relative z-10 mx-auto max-w-[1500px] px-4 sm:px-6 lg:px-8">
         <div className="rounded-[30px] border border-white/15 bg-black/10 p-4 shadow-[0_20px_80px_rgba(0,0,0,0.18)] sm:p-5 lg:p-8">
@@ -341,35 +284,42 @@ const ServicesSection: React.FC = () => {
               Our Services
             </p>
 
-            <TypewriterText
-  as="h2"
-  text="Aviation Solutions, Precisely Tailored to Every Journey"
-  className="max-w-4xl text-3xl leading-tight text-white sm:text-4xl lg:text-5xl"
-  speed={1}
-  startDelay={0}
-  onComplete={() => {
-    setTimeout(() => {
-      setShowCards(true);
-      AOS.refresh(); // 👈 re-trigger AOS after render
-    }, 1); // slight delay feels smoother
-  }}
-/>
+            {/* Wait until loading is done so Typewriter gets the actual fetched text */}
+            {!isLoading && (
+              <TypewriterText
+                as="h2"
+                text={sectionTitle}
+                className="max-w-4xl text-3xl leading-tight text-white sm:text-4xl lg:text-5xl uppercase"
+                speed={1}
+                startDelay={0}
+                onComplete={() => {
+                  setTimeout(() => {
+                    setShowCards(true);
+                    AOS.refresh(); 
+                  }, 1);
+                }}
+              />
+            )}
           </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-  {showCards &&
-    services.map((service) => (
-      <ServiceCard
-        key={service.title}
-        title={service.title}
-        description={service.description}
-        className={service.className}
-        delay={service.delay}
-        link={service.link}
-        cardAos={service.cardAos}
-      />
-    ))}
-</div>
+          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            {showCards &&
+              sortedCards.map((service: any, index: number) => {
+                // Map the DB item to our UI animation configs
+                const uiConfig = uiConfigs[index] || { delay: 0, cardAos: "fade-up", link: "" };
+
+                return (
+                  <ServiceCard
+                    key={service.id}
+                    title={service.title}
+                    description={service.description}
+                    delay={uiConfig.delay}
+                    link={uiConfig.link}
+                    cardAos={uiConfig.cardAos}
+                  />
+                );
+              })}
+          </div>
         </div>
       </div>
     </section>
