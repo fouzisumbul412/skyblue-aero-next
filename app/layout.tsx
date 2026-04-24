@@ -19,7 +19,10 @@ export const metadata = {
     siteName: "SkyBlue Aero",
     images: [
       {
-        url: "/logo.png",
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "SkyBlue Aero - Luxury Private Aviation",
       },
     ],
     type: "website",
