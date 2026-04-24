@@ -36,24 +36,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* ✅ Zoho Chatbot */}
-        <Script id="zoho-init" strategy="afterInteractive">
-          {`
-            window.$zoho = window.$zoho || {};
-            $zoho.salesiq = $zoho.salesiq || { ready: function(){} };
-          `}
-        </Script>
-
-        <Script
-          id="zsiqscript"
-          src="https://salesiq.zohopublic.com/widget?wc=siqba713578b03d4391f324b487cdd322c66aa0c55dad28ddd6bbbb6aa62012eab3"
-          strategy="afterInteractive"
-        />
-      </head>
-
       <body>
-        {/* ✅ Move all client logic here */}
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

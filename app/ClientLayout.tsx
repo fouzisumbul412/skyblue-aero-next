@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import Script from "next/script"; 
 
 import Providers from "./providers";
-
 import Navigation from "@/components/global/Navigation";
 import Footer from "@/components/global/Footer";
 import FloatingActions from "@/components/global/FloatingActions";
@@ -18,6 +19,9 @@ export default function ClientLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const isAuthOrAdmin = pathname.startsWith("/login") || pathname.startsWith("/admin");
+
   const [quoteOpen, setQuoteOpen] = useState(false);
   const [isCharterOpen, setIsCharterOpen] = useState(false);
   const [showNavLogo, setShowNavLogo] = useState(false);
@@ -37,41 +41,55 @@ export default function ClientLayout({
 
   return (
     <Providers>
-      {/* Loader */}
-      {!isLoadingDone && (
+      {!isLoadingDone && !isAuthOrAdmin && (
         <FlightLoader
           onComplete={handleLoaderComplete}
           onLogoArrived={() => setShowNavLogo(true)}
         />
       )}
 
-      {/* App */}
-      <SmoothScrollProvider>
-        <GrainOverlay />
+      {isAuthOrAdmin ? (
+        <main>{children}</main>
+      ) : (
+        <SmoothScrollProvider>
+          <Script id="zoho-init" strategy="afterInteractive">
+            {`
+              window.$zoho = window.$zoho || {};
+              $zoho.salesiq = $zoho.salesiq || { ready: function(){} };
+            `}
+          </Script>
+          <Script
+            id="zsiqscript"
+            src="https://salesiq.zohopublic.com/widget?wc=siqba713578b03d4391f324b487cdd322c66aa0c55dad28ddd6bbbb6aa62012eab3"
+            strategy="afterInteractive"
+          />
 
-        <Navigation
-          onOpenQuote={() => setQuoteOpen(true)}
-          showLogo={showNavLogo || isLoadingDone}
-        />
+          <GrainOverlay />
 
-        <FloatingActions
-          onOpenCharter={() => setIsCharterOpen(true)}
-        />
+          <Navigation
+            onOpenQuote={() => setQuoteOpen(true)}
+            showLogo={showNavLogo || isLoadingDone}
+          />
 
-        <BookCharterSheet
-          isOpen={isCharterOpen}
-          onClose={() => setIsCharterOpen(false)}
-        />
+          <FloatingActions
+            onOpenCharter={() => setIsCharterOpen(true)}
+          />
 
-        <QuickQuoteModal
-          open={quoteOpen}
-          onClose={() => setQuoteOpen(false)}
-        />
+          <BookCharterSheet
+            isOpen={isCharterOpen}
+            onClose={() => setIsCharterOpen(false)}
+          />
 
-        {children}
-      </SmoothScrollProvider>
+          <QuickQuoteModal
+            open={quoteOpen}
+            onClose={() => setQuoteOpen(false)}
+          />
 
-      <Footer />
+          <main>{children}</main>
+          
+          <Footer />
+        </SmoothScrollProvider>
+      )}
     </Providers>
   );
 }
