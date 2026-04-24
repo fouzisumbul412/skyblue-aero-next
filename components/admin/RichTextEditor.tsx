@@ -165,11 +165,11 @@ export default function RichTextEditor({ content, onChange }: { content: string,
         },
       }),
       ImageResize.configure({
-        allowBase64: true, 
+        allowBase64: true,
         HTMLAttributes: {
           class: 'rounded-lg max-w-full my-4',
         },
-      }),
+      } as any),
     ],
     content: '', 
     immediatelyRender: false,
