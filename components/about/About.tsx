@@ -4,6 +4,20 @@ import Image from "next/image";
 import SplitTextReveal from "@/components/motion/SplitTextReveal";
 import FadeUpStagger from "@/components/motion/FadeUpStagger";
 import ClipReveal from "@/components/motion/ClipReveal";
+import { Globe2, Target } from "lucide-react";
+
+const features = [
+  {
+    icon: Globe2,
+    title: "Vision",
+    desc: "To emerge as a globally trusted aviation partner, known for excellence, reliability, and world-class service delivery across every touchpoint.",
+  },
+  {
+    icon: Target,
+    title: "Mission",
+    desc: "To provide exceptional aviation services that exceed client expectations, fostering long-term relationships built on trust, transparency, and mutual success.",
+  },
+];
 
 const About = () => {
   return (
@@ -89,6 +103,64 @@ const About = () => {
               />
             </div>
           </ClipReveal>
+        </div>
+      </section>
+
+      <section className="py-10 md:py-20 bg-[#1671a9] relative overflow-hidden">
+        {/* Decorative blobs */}
+        <div className="absolute top-0 right-0 h-[600px] w-[600px] rounded-full bg-[#D7A34D]/10 blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-[-20%] left-[-10%] h-[700px] w-[700px] rounded-full bg-[#06111D]/30 blur-[150px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16">
+          <FadeUpStagger>
+            <div className="max-w-5xl mb-16 text-center mx-auto">
+              <FadeUpStagger>
+                <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/5 backdrop-blur-md px-5 py-2 mb-8 shadow-sm">
+                  <span className="h-2 w-2 rounded-full bg-black animate-pulse" />
+                  <span className="text-[14px] tracking-[0.35em] uppercase font-medium">
+                    The Standard of Excellence
+                  </span>
+                </div>
+              </FadeUpStagger>
+              <h2 className="text-3xl md:text-5xl leading-[1.1] tracking-[-0.01em] font-bold text-white">
+                Uncompromising Reliability, Unparalleled Value
+              </h2>
+            </div>
+          </FadeUpStagger>
+
+          <FadeUpStagger>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
+              {features.map((item, index) => {
+                const Icon = item.icon;
+
+                return (
+                  <div
+                    key={item.title}
+                    className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.03] backdrop-blur-md p-10 md:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.1)] transition-all duration-500 hover:-translate-y-2 hover:border-[#D7A34D]/40 hover:bg-white/[0.06] hover:shadow-[0_32px_80px_rgba(0,0,0,0.25)]"
+                  >
+                    {/* Glow Accents */}
+                    <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-[#D7A34D] blur-[80px] opacity-0 transition-opacity duration-700 group-hover:opacity-20" />
+
+                    <div className="relative z-10">
+                      <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#fff]/50 border border-white/10 text-white transition-all duration-300 group-hover:scale-110 group-hover:-rotate-3 shadow-lg">
+                        <Icon className="h-7 w-7" />
+                      </div>
+
+                      <h3 className="text-xl md:text-2xl font-bold leading-[1.3] text-white tracking-wide">
+                        {item.title}
+                      </h3>
+
+                      <p className="mt-5 text-[16px] leading-relaxed text-white/70">
+                        {item.desc}
+                      </p>
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 h-[4px] w-0 bg-gradient-to-r from-[#D7A34D] to-[#ed7e0a] transition-all duration-700 ease-out group-hover:w-full" />
+                  </div>
+                );
+              })}
+            </div>
+          </FadeUpStagger>
         </div>
       </section>
 
