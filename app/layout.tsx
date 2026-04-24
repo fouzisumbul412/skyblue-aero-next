@@ -1,87 +1,60 @@
-"use client";
+// ❌ NO "use client"
 
 import "./globals.css";
-import { useState, useEffect } from "react";
+import Script from "next/script";
+import ClientLayout from "./ClientLayout";
 
-import Providers from "./providers";
-
-import Navigation from "@/components/global/Navigation";
-import Footer from "@/components/global/Footer";
-import FloatingActions from "@/components/global/FloatingActions";
-import QuickQuoteModal from "@/components/global/QuickQuoteModal";
-import GrainOverlay from "@/components/global/GrainOverlay";
-import FlightLoader from "@/components/global/FlightLoader";
-import SmoothScrollProvider from "@/components/SmoothScrollProvider";
-import BookCharterSheet from "@/components/global/BookCharterSheet";
+/* ✅ SEO + META (SERVER SIDE ONLY) */
+export const metadata = {
+  title: "SkyBlue Aero | One Stop Solution For All Your Private Aviation Needs",
+  description:
+    "Experience luxury private aviation with SkyBlue Aero Services. Safe, reliable, and premium charter flights.",
+  icons: {
+    icon: "/sky-favi.png",
+  },
+  openGraph: {
+    title: "SkyBlue Aero Services",
+    description:
+      "Experience luxury private aviation with SkyBlue Aero Services.",
+    url: "https://www.skyblue.aero/",
+    siteName: "SkyBlue Aero",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    type: "website",
+  },
+};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [quoteOpen, setQuoteOpen] = useState(false);
-  const [isCharterOpen, setIsCharterOpen] = useState(false);
-  const [showNavLogo, setShowNavLogo] = useState(false);
-
-  // ✅ FIX: always same on server & client initially
-  const [isLoadingDone, setIsLoadingDone] = useState(false);
-
-  // ✅ FIX: read sessionStorage AFTER mount
-  useEffect(() => {
-    const loaderShown = sessionStorage.getItem("loaderShown") === "true";
-    if (loaderShown) {
-      setIsLoadingDone(true);
-    }
-  }, []);
-
-  const handleLoaderComplete = () => {
-    setIsLoadingDone(true);
-    sessionStorage.setItem("loaderShown", "true");
-  };
-
   return (
     <html lang="en">
-      <body suppressHydrationWarning>
-        <Providers>
+      <head>
+        {/* ✅ Zoho Chatbot */}
+        <Script id="zoho-init" strategy="afterInteractive">
+          {`
+            window.$zoho = window.$zoho || {};
+            $zoho.salesiq = $zoho.salesiq || { ready: function(){} };
+          `}
+        </Script>
 
-          {/* Loader */}
-          {!isLoadingDone && (
-            <FlightLoader
-              onComplete={handleLoaderComplete}
-              onLogoArrived={() => setShowNavLogo(true)}
-            />
-          )}
+        <Script
+          id="zsiqscript"
+          src="https://salesiq.zohopublic.com/widget?wc=siqba713578b03d4391f324b487cdd322c66aa0c55dad28ddd6bbbb6aa62012eab3"
+          strategy="afterInteractive"
+        />
+      </head>
 
-          {/* App */}
-          <SmoothScrollProvider>
-            <GrainOverlay />
-
-            <Navigation
-              onOpenQuote={() => setQuoteOpen(true)}
-              showLogo={showNavLogo || isLoadingDone}
-            />
-
-            <FloatingActions
-              onOpenCharter={() => setIsCharterOpen(true)}
-            />
-
-            <BookCharterSheet
-              isOpen={isCharterOpen}
-              onClose={() => setIsCharterOpen(false)}
-            />
-
-            <QuickQuoteModal
-              open={quoteOpen}
-              onClose={() => setQuoteOpen(false)}
-            />
-
-            {/* PAGE CONTENT */}
-            {children}
-          </SmoothScrollProvider>
-
-          <Footer />
-
-        </Providers>
+      <body>
+        {/* ✅ Move all client logic here */}
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
