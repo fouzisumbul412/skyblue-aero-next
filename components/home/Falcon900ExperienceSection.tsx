@@ -3,20 +3,20 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 const specificationPoints = [
   { label: "Charter Focus", value: "Long-range" },
-  { label: "Cabin", value: "Multi-zone" },
+  { label: "Cabin", value: "Dual Cabin" },
   { label: "FEATURES", value: "TRI-JET" },
-  { label: "CAPACITY", value: "10–14 PASSENGERS" },
+  { label: "CAPACITY", value: "14 PASSENGERS" },
   { label: "RANGE", value: "4,500 NM" },
   { label: "COMFORT", value: "FULLY BERTHABLE SEATS" },
 ];
 
 const nsopPoints = [
   { label: "CHARTER AUTHORITY", value: "DGCA NSOP" },
-  { label: "AIRCRAFT TYPE", value: "FALCON 2000 SERIES" },
+  { label: "AIRCRAFT TYPE", value: "FALCON 900EX SERIES" },
   { label: "PRIMARY OPERATOR", value: "Skyblue Aero" },
-  { label: "FLEET IDS", value: "VT-ARF · VT-ARC · VT-ARO" },
-  { label: "SECONDARY OPERATOR", value: "AERO TRANS SERVICES" },
-  { label: "AIRCRAFT ID", value: "VT-CLF" },
+  { label: "Age", value: "19 Years 4 Months" },
+  { label: "Base", value: "Hyderabad" },
+  { label: "AIRCRAFT ID", value: "VT-KSE" },
 ];
 
 const Falcon900ExperienceSection: React.FC = () => {
