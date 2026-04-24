@@ -4,7 +4,6 @@ import "./globals.css";
 import Script from "next/script";
 import ClientLayout from "./ClientLayout";
 
-/* ✅ SEO + META (SERVER SIDE ONLY) */
 export const metadata = {
   title: "SkyBlue Aero | One Stop Solution For All Your Private Aviation Needs",
   description:
@@ -13,7 +12,7 @@ export const metadata = {
     icon: "/sky-favi.png",
   },
   openGraph: {
-    title: "SkyBlue Aero Services",
+    title: "SkyBlue Aero | One Stop Solution For All Your Private Aviation Needs",
     description:
       "Experience luxury private aviation with SkyBlue Aero Services.",
     url: "https://www.skyblue.aero/",
@@ -21,8 +20,6 @@ export const metadata = {
     images: [
       {
         url: "/logo.png",
-        width: 728,
-        height: 200,
       },
     ],
     type: "website",
