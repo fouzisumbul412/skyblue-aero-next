@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import Image from '@tiptap/extension-image';
+import ImageResize from 'tiptap-extension-resize-image';
 import Underline from '@tiptap/extension-underline';
 import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
@@ -23,6 +23,22 @@ import {
   Link as LinkIcon, Unlink, ImageIcon, 
   Highlighter, Undo, Redo, Maximize, Minimize
 } from 'lucide-react';
+
+const NavButton = ({ onClick, isActive, icon: Icon, disabled = false, title }: any) => (
+  <button
+    type="button"
+    onClick={onClick}
+    disabled={disabled}
+    title={title}
+    className={`p-1.5 sm:p-2 rounded-md transition-colors flex-shrink-0 ${
+      isActive ? 'bg-[#1868A5] text-white' : 'text-slate-600 hover:bg-slate-200'
+    } disabled:opacity-50`}
+  >
+    <Icon size={18} />
+  </button>
+);
+
+const Divider = () => <div className="w-px h-6 bg-slate-300 mx-1 flex-shrink-0" />;
 
 const MenuBar = ({ editor, isFullscreen, toggleFullscreen }: { editor: any, isFullscreen: boolean, toggleFullscreen: () => void }) => {
   if (!editor) return null;
@@ -55,22 +71,6 @@ const MenuBar = ({ editor, isFullscreen, toggleFullscreen }: { editor: any, isFu
     }
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   };
-
-  const NavButton = ({ onClick, isActive, icon: Icon, disabled = false, title }: any) => (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      title={title}
-      className={`p-1.5 sm:p-2 rounded-md transition-colors flex-shrink-0 ${
-        isActive ? 'bg-[#1868A5] text-white' : 'text-slate-600 hover:bg-slate-200'
-      } disabled:opacity-50`}
-    >
-      <Icon size={18} />
-    </button>
-  );
-
-  const Divider = () => <div className="w-px h-6 bg-slate-300 mx-1 flex-shrink-0" />;
 
   return (
     <div className="flex flex-wrap items-center gap-1 border-b border-slate-200 p-2 bg-slate-50 sticky top-0 z-10">
@@ -141,6 +141,7 @@ const MenuBar = ({ editor, isFullscreen, toggleFullscreen }: { editor: any, isFu
 
 export default function RichTextEditor({ content, onChange }: { content: string, onChange: (html: string) => void }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isInitialContentSet, setIsInitialContentSet] = useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -163,13 +164,14 @@ export default function RichTextEditor({ content, onChange }: { content: string,
           class: 'text-[#1868A5] underline cursor-pointer',
         },
       }),
-      Image.configure({
+      ImageResize.configure({
+        allowBase64: true, 
         HTMLAttributes: {
-          class: 'rounded-lg max-w-full h-auto my-4 mx-auto',
+          class: 'rounded-lg max-w-full my-4',
         },
       }),
     ],
-    content: content,
+    content: '', 
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
@@ -181,11 +183,13 @@ export default function RichTextEditor({ content, onChange }: { content: string,
     },
   });
 
-  React.useEffect(() => {
-    if (editor && content && editor.getHTML() !== content) {
+
+  useEffect(() => {
+    if (editor && content && !isInitialContentSet) {
       editor.commands.setContent(content);
+      setIsInitialContentSet(true);
     }
-  }, [content, editor]);
+  }, [content, editor, isInitialContentSet]);
 
   const toggleFullscreen = () => {
     if (!isFullscreen) {
@@ -196,10 +200,8 @@ export default function RichTextEditor({ content, onChange }: { content: string,
     setIsFullscreen(!isFullscreen);
   };
 
-  React.useEffect(() => {
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
+  useEffect(() => {
+    return () => { document.body.style.overflow = 'auto'; };
   }, []);
 
   return (

@@ -8,15 +8,21 @@ export async function GET(req: NextRequest) {
     const isAdmin = user?.role === "ADMIN";
 
     const { searchParams } = new URL(req.url);
-    const searchQuery = searchParams.get("search");
+    const searchQuery = searchParams.get("search") || "";
+    const status = searchParams.get("status") || "all";
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const limit = parseInt(searchParams.get("limit") || "10", 10);
+    
     const relatedCategory = searchParams.get("related");
     const excludeSlug = searchParams.get("exclude");
-    const limit = searchParams.get("limit");
 
     const whereClause: any = {};
     
     if (!isAdmin) {
       whereClause.published = true;
+    } else {
+      if (status === "published") whereClause.published = true;
+      if (status === "draft") whereClause.published = false;
     }
 
     if (searchQuery) {
@@ -35,15 +41,29 @@ export async function GET(req: NextRequest) {
       whereClause.slug = { not: excludeSlug };
     }
 
-    const takeCount = limit ? parseInt(limit, 10) : (relatedCategory ? 5 : undefined);
+    const skip = (page - 1) * limit;
 
-    const posts = await prisma.blogPost.findMany({
-      where: whereClause,
-      orderBy: { createdAt: "desc" },
-      take: takeCount, 
-    });
+    const [posts, totalCount] = await Promise.all([
+      prisma.blogPost.findMany({
+        where: whereClause,
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit, 
+      }),
+      prisma.blogPost.count({ where: whereClause })
+    ]);
 
-    return NextResponse.json({ success: true, data: posts }, { status: 200 });
+    return NextResponse.json({ 
+      success: true, 
+      data: posts,
+      pagination: {
+        total: totalCount,
+        page,
+        limit,
+        totalPages: Math.ceil(totalCount / limit)
+      }
+    }, { status: 200 });
+
   } catch {
     return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
   }

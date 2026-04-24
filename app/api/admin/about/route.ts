@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
       heroSubtitle: formData.get("heroSubtitle"),
       title: formData.get("title"),
       content: formData.get("content"),
+      storyHeading: formData.get("storyHeading"),
       counters,
       values,
     });
@@ -78,6 +79,7 @@ export async function POST(req: NextRequest) {
                 heroSubtitle: data.heroSubtitle,
                 heroImage: heroImagePath!,
                 title: data.title,
+                storyHeading: data.storyHeading,
                 content: data.content,
                 image: storyImagePath!,
             }
@@ -91,6 +93,7 @@ export async function POST(req: NextRequest) {
               heroSubtitle: data.heroSubtitle,
               heroImage: heroImagePath || "",
               title: data.title,
+              storyHeading: data.storyHeading,
               content: data.content,
               image: storyImagePath || "",
             }

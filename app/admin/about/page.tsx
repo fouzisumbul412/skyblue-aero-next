@@ -159,7 +159,7 @@ export default function AdminAboutPage() {
           Save Changes
         </button>
       </div>
-
+      
       {/* Hero Section */}
       <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
         <div className="flex items-center gap-2 text-[#1868A5] border-b border-slate-100 pb-3">
@@ -184,25 +184,31 @@ export default function AdminAboutPage() {
               />
             </div>
           </div>
+
+          {/* Improved Image Upload */}
           <div>
-            <p className="block text-sm font-medium text-slate-700 mb-1">Hero Background Image</p>
-            <label className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-xl relative overflow-hidden bg-slate-50 hover:bg-slate-100 transition-colors group cursor-pointer h-40">
-                <input type="file" className="sr-only" accept="image/*" onChange={(e) => handleImageChange(e, "hero")} />
-                
-                {heroPreview ? (
-                <img src={heroPreview} alt="Hero" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" />
-                ) : null}
-                
-                <div className="space-y-1 text-center relative z-10 flex flex-col items-center justify-center pointer-events-none">
-                <ImageIcon className="mx-auto h-8 w-8 text-slate-400" />
-                <div className="flex text-sm text-slate-600 mt-2">
-                    <span className="relative bg-white rounded-md font-medium text-[#1868A5] px-2 py-1 shadow-sm">
-                    Upload a file
-                    </span>
-                </div>
-                </div>
-            </label>
+            <p className="block text-sm font-medium text-slate-700 mb-2">Hero Background Image</p>
+            <div className="relative group rounded-xl overflow-hidden border border-slate-200 bg-slate-100 aspect-video flex items-center justify-center">
+              {heroPreview ? (
+                <>
+                  <img src={heroPreview} alt="Hero" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <label className="cursor-pointer bg-white text-slate-900 px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-slate-100 transition-colors">
+                      <ImageIcon size={16} />
+                      Change Image
+                      <input type="file" className="sr-only" accept="image/*" onChange={(e) => handleImageChange(e, "hero")} />
+                    </label>
+                  </div>
+                </>
+              ) : (
+                <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer hover:bg-slate-200 transition-colors">
+                  <ImageIcon className="h-10 w-10 text-slate-400 mb-2" />
+                  <span className="text-sm font-medium text-slate-600">Click to upload hero image</span>
+                  <input type="file" className="sr-only" accept="image/*" onChange={(e) => handleImageChange(e, "hero")} />
+                </label>
+              )}
             </div>
+          </div>
         </div>
       </section>
 
@@ -237,23 +243,31 @@ export default function AdminAboutPage() {
               />
             </div>
           </div>
+
+          {/* Image Upload */}
           <div>
-            <p className="block text-sm font-medium text-slate-700 mb-1">Story Image</p>
-            <label className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-xl relative overflow-hidden bg-slate-50 hover:bg-slate-100 transition-colors group cursor-pointer h-full min-h-[250px]">
-                <input type="file" className="sr-only" accept="image/*" onChange={(e) => handleImageChange(e, "story")} />
-                
-                {storyPreview ? (
-                <img src={storyPreview} alt="Story" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-60 transition-opacity" />
-                ) : null}
-                
-                <div className="space-y-1 text-center relative z-10 flex flex-col items-center justify-center bg-white/80 p-4 rounded-lg backdrop-blur-sm m-auto pointer-events-none">
-                <ImageIcon className="mx-auto h-8 w-8 text-slate-500" />
-                <span className="relative font-medium text-[#1868A5]">
-                    Upload Image
-                </span>
-                </div>
-            </label>
+            <p className="block text-sm font-medium text-slate-700 mb-2">Story Image</p>
+            <div className="relative group rounded-xl overflow-hidden border border-slate-200 bg-slate-100 h-full min-h-[300px] flex items-center justify-center">
+              {storyPreview ? (
+                <>
+                  <img src={storyPreview} alt="Story" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <label className="cursor-pointer bg-white text-slate-900 px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-slate-100 transition-colors">
+                      <ImageIcon size={16} />
+                      Change Image
+                      <input type="file" className="sr-only" accept="image/*" onChange={(e) => handleImageChange(e, "story")} />
+                    </label>
+                  </div>
+                </>
+              ) : (
+                <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer hover:bg-slate-200 transition-colors">
+                  <ImageIcon className="h-10 w-10 text-slate-400 mb-2" />
+                  <span className="text-sm font-medium text-slate-600">Click to upload story image</span>
+                  <input type="file" className="sr-only" accept="image/*" onChange={(e) => handleImageChange(e, "story")} />
+                </label>
+              )}
             </div>
+          </div>
         </div>
       </section>
 
