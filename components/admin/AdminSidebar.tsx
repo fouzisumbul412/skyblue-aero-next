@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { motion } from 'framer-motion';
 import { 
   LayoutDashboard, Home, FileText, Image as ImageIcon, 
-  PenTool, PlaneTakeoff, MessageSquare, Users, Settings, LogOut, X 
+  PenTool, PlaneTakeoff, MessageSquare, Users, Settings, LogOut, X, Plane 
 } from 'lucide-react';
 
 const NavItem = ({ to, icon: Icon, label, isCollapsed, isMobileMenuOpen }: any) => {
@@ -69,7 +69,8 @@ export default function AdminSidebar({ isCollapsed, isMobileMenuOpen, setIsMobil
         <div>
           {(!isCollapsed || isMobileMenuOpen) && <p className="px-3 text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Website Content</p>}
           <nav className="space-y-1">
-            <NavItem to="/admin/home" icon={Home} label="Home Sections" isCollapsed={isCollapsed} isMobileMenuOpen={isMobileMenuOpen} />
+            <NavItem to="/admin/home" icon={Home} label="Home Page" isCollapsed={isCollapsed} isMobileMenuOpen={isMobileMenuOpen} />
+            <NavItem to="/admin/charter-falcon" icon={Plane} label="Charter Page" isCollapsed={isCollapsed} isMobileMenuOpen={isMobileMenuOpen} />
             <NavItem to="/admin/about" icon={FileText} label="About Page" isCollapsed={isCollapsed} isMobileMenuOpen={isMobileMenuOpen} />
             <NavItem to="/admin/gallery" icon={ImageIcon} label="Gallery" isCollapsed={isCollapsed} isMobileMenuOpen={isMobileMenuOpen} />
             <NavItem to="/admin/blog" icon={PenTool} label="Insights & Blog" isCollapsed={isCollapsed} isMobileMenuOpen={isMobileMenuOpen} />
@@ -87,7 +88,6 @@ export default function AdminSidebar({ isCollapsed, isMobileMenuOpen, setIsMobil
         <div>
           {(!isCollapsed || isMobileMenuOpen) && <p className="px-3 text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">System</p>}
           <nav className="space-y-1">
-            <NavItem to="/admin/users" icon={Users} label="User Management" isCollapsed={isCollapsed} isMobileMenuOpen={isMobileMenuOpen} />
             <NavItem to="/admin/settings" icon={Settings} label="Settings" isCollapsed={isCollapsed} isMobileMenuOpen={isMobileMenuOpen} />
           </nav>
         </div>

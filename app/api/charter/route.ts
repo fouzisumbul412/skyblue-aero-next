@@ -51,10 +51,13 @@ export async function POST(req: NextRequest) {
       Lead_Source: "Website Charter Form",
     };
 
-    const isSynced = await pushLeadToZoho(zohoPayload);
-
-    if (isSynced) {
-      await prisma.charterRequest.update({ where: { id: charter.id }, data: { zohoSynced: true } });
+    const zohoId = await pushLeadToZoho(zohoPayload);
+    
+    if (zohoId) {
+      await prisma.charterRequest.update({ 
+        where: { id: charter.id }, 
+        data: { zohoSynced: true, zohoId } 
+      });
     }
 
     return NextResponse.json( { success: true, message: "Charter request submitted successfully" }, { status: 201 } );

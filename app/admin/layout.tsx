@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
-import { PanelLeftClose, PanelLeftOpen, Menu } from 'lucide-react';
+import { PanelLeftClose, PanelLeftOpen, Menu, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 
@@ -34,7 +34,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [user, loading, router]);
 
   if (loading || !user) {
-    return <div className="flex h-screen items-center justify-center bg-slate-50">Authenticating...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center bg-slate-50">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="animate-spin text-[#1868A5]" size={40} />
+        </div>
+      </div>
+    );
   }
 
   return (

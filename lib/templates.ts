@@ -1,13 +1,3 @@
-export const getAdminNotificationTemplate = (fullName: string, email: string, message: string) => `
-  <h2>New Website Contact / Quote Request</h2>
-  <p><strong>Name:</strong> ${fullName}</p>
-  <p><strong>Email:</strong> ${email}</p>
-  <h3>Message Details</h3>
-  <p>${message}</p>
-  <hr/>
-  <p>This request was submitted from the Skyblue Aero website.</p>
-`;
-
 export const getUserConfirmationTemplate = (firstName: string, message: string) => `
   <table width="100%" height="100%" padding="10" cellpadding="0" cellspacing="0" style="background:#0b0b0b;padding:40px 0;font-family:Arial,Helvetica,sans-serif;">
     <tr>

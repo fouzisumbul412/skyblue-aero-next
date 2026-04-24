@@ -5,13 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "react-hot-toast";
-
-const Logo = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 100 100" className={className} fill="none" xmlns="/logo-white.png">
-    <path d="M55 25 H 40 L 15 50 L 40 75 H 55 L 30 50 Z" fill="#1868A5" />
-    <path d="M85 25 H 70 L 45 50 L 70 75 H 85 L 60 50 Z" fill="#F27C22" />
-  </svg>
-);
+import { Loader2 } from "lucide-react";
 
 export default function Login() {
   const { user, refreshUser, loading } = useAuth();
@@ -51,7 +45,16 @@ export default function Login() {
     }
   };
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-slate-50">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="animate-spin text-[#1868A5]" size={40} />
+          <p className="text-sm font-medium text-slate-500 animate-pulse">Authenticating...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -60,13 +63,16 @@ export default function Login() {
           <motion.div 
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="mx-auto h-20 w-20 flex items-center justify-center rounded-full bg-[#1868A5]/10"
+            className="mx-auto flex items-center justify-center"
           >
-            <Logo className="h-12 w-12" />
+            {/* Replaced SVG with Image Tag */}
+            <img 
+              src="/logo.png" 
+              alt="Skyblue Aero" 
+              className="h-20 w-auto object-contain" 
+              // If you only have the white logo, use src="/logo-white.png" and add a background color to the img or div like className="h-20 w-auto object-contain bg-slate-900 p-2 rounded"
+            />
           </motion.div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            SKYBLUE GALLEY
-          </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Admin Management Portal
           </p>
@@ -95,9 +101,14 @@ export default function Login() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-[#1868A5] hover:bg-[#145a8d] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1868A5] disabled:opacity-50"
+            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-[#1868A5] hover:bg-[#145a8d] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1868A5] disabled:opacity-50 transition-all shadow-sm"
           >
-            {isSubmitting ? "Authenticating..." : "Sign in"}
+            {isSubmitting ? (
+               <div className="flex items-center gap-2">
+                 <Loader2 size={18} className="animate-spin" />
+                 Authenticating...
+               </div>
+            ) : "Sign in"}
           </button>
         </form>
       </div>

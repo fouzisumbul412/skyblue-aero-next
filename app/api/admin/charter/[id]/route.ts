@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { deleteLeadFromZoho } from "@/lib/zoho";
 
 export async function DELETE( req: NextRequest, { params }: { params: Promise<{ id: string }> } ) {
   try {
@@ -10,6 +11,19 @@ export async function DELETE( req: NextRequest, { params }: { params: Promise<{ 
     }
 
     const { id } = await params;
+    const { searchParams } = new URL(req.url);
+    const removeFromZoho = searchParams.get("removeFromZoho") === "true";
+
+    if (removeFromZoho) {
+      const charter = await prisma.charterRequest.findUnique({
+        where: { id },
+        select: { zohoId: true }
+      });
+
+      if (charter?.zohoId) {
+        await deleteLeadFromZoho(charter.zohoId);
+      }
+    }
 
     await prisma.charterRequest.delete({ where: { id } });
 

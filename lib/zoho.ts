@@ -45,6 +45,7 @@ async function getZohoAccessToken() {
   return data.access_token;
 }
 
+
 export async function pushLeadToZoho(leadData: any) {
   try {
     const accessToken = await getZohoAccessToken();
@@ -63,6 +64,29 @@ export async function pushLeadToZoho(leadData: any) {
 
     const result = await res.json();
     
+    if (result.data && result.data[0].code === "SUCCESS") {
+      return result.data[0].details.id;
+    } else {
+      return null;
+    }
+  } catch {
+    return null;
+  }
+}
+
+export async function deleteLeadFromZoho(zohoId: string) {
+  try {
+    const accessToken = await getZohoAccessToken();
+
+    const res = await fetch(`https://www.zohoapis.in/crm/v2/Leads/${zohoId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Zoho-oauthtoken ${accessToken}`,
+      },
+    });
+
+    const result = await res.json();
+
     if (result.data && result.data[0].code === "SUCCESS") {
       return true;
     } else {

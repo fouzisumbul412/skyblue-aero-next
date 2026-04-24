@@ -150,6 +150,7 @@ model QuoteRequest {
   message String @db.Text
 
   zohoSynced Boolean @default(false)
+  zohoId String?
   createdAt DateTime @default(now())
 }
 
@@ -166,5 +167,6 @@ model CharterRequest {
   returnDate DateTime?
 
   zohoSynced Boolean @default(false)
+  zohoId String?
   createdAt DateTime @default(now())
 }
