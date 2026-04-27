@@ -8,6 +8,11 @@ import HeroEditor from "@/components/admin/pages/HeroEditor";
 import IntroEditor from "@/components/admin/pages/IntroEditor";
 import FalconEditor from "@/components/admin/pages/FalconEditor";
 
+type GridItem = {
+  label: string;
+  value: string;
+};
+
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const SLUG = "charters";
@@ -31,12 +36,12 @@ export default function AdminChartersPage() {
     content: { title: "DASSAULT FALCON", planeModel: "900EX", subtitle: "LONG-RANGE PRIVATE AIRCRAFT", description: "", leftGridTitle: "FEATURES", rightGridTitle: "NSOP" },
     imagePreview: null as string | null,
     imageFile: null as File | null,
-    leftItems: [],
-    rightItems: [],
+    leftItems: [] as GridItem[],
+    rightItems: [] as GridItem[],
   });
+
   const { data: falconResp, isLoading: isFalconLoading, mutate: mutateFalcon } = useSWR("/api/charter/falcon", fetcher, { revalidateOnFocus: false });
 
-  // --- POPULATE STATES ---
   useEffect(() => {
     if (pageResp?.success && pageResp?.data) {
       setPageData({
@@ -62,7 +67,7 @@ export default function AdminChartersPage() {
     }
   }, [falconResp]);
 
-  // --- HANDLERS: Charters Data ---
+  
   const updatePage = (field: string, value: any) => setPageData({ ...pageData, [field]: value });
   const updateSection = (sIndex: number, field: string, value: any) => {
     const updatedSections = [...pageData.sections];
@@ -72,7 +77,7 @@ export default function AdminChartersPage() {
 
   const updateFalconContent = (field: string, value: string) => setFalconData(prev => ({ ...prev, content: { ...prev.content, [field]: value } }));
   const updateFalconImage = (file: File | null) => setFalconData(prev => ({ ...prev, imageFile: file, imagePreview: file ? URL.createObjectURL(file) : prev.imagePreview }));
-  const updateFalconGrid = (side: "LEFT" | "RIGHT", items: any[]) => setFalconData(prev => side === "LEFT" ? { ...prev, leftItems: items } : { ...prev, rightItems: items });
+  const updateFalconGrid = (side: "LEFT" | "RIGHT", items: GridItem[]) => setFalconData(prev => side === "LEFT" ? { ...prev, leftItems: items } : { ...prev, rightItems: items });
 
   const handleSave = async () => {
     setIsSaving(true);
