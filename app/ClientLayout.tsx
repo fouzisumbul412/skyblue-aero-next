@@ -52,7 +52,7 @@ export default function ClientLayout({
         <main>{children}</main>
       ) : (
         <SmoothScrollProvider>
-          <Script id="zoho-init" strategy="afterInteractive">
+          <Script key="zoho-init" id="zoho-init" strategy="afterInteractive">
             {`
               window.$zoho = window.$zoho || {};
               $zoho.salesiq = $zoho.salesiq || { ready: function(){} };
