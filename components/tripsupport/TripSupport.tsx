@@ -207,7 +207,7 @@ export default function TripSupport() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
-            src="/images/jet-aerial.jpg"
+            src="/images/trip-support.png"
             alt="International Trip Support"
             fill
             priority
@@ -215,7 +215,7 @@ export default function TripSupport() {
           />
 
           {/* Overlay Layers */}
-          <div className="absolute inset-0 bg-[#06111D]/45" />
+          <div className="absolute inset-0 bg-[#06111D]/5" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#06111D]/20 via-[#06111D]/35 to-[#06111D]/80" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(215,163,77,0.18),transparent_40%)]" />
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(6,17,29,0.82),rgba(6,17,29,0.28),rgba(6,17,29,0.78))]" />
@@ -425,86 +425,87 @@ export default function TripSupport() {
       </section>
 
       {/* ════════════════════════════════ PROCESS ════════════════════════════ */}
-      <section className="relative overflow-hidden bg-[#1671a9] py-10 md:py-20">
-        {/* Decorative blobs */}
-        <div className="absolute top-0 left-0 h-[500px] w-[500px] rounded-full bg-[#D7A34D]/8 blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-white/4 blur-[100px] pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-[#D7A34D]/4 blur-[120px] pointer-events-none" />
+     <section className="relative overflow-hidden bg-brand-navy py-10 md:py-20">
+  {/* Decorative blobs */}
+  <div className="absolute top-0 left-0 h-[500px] w-[500px] rounded-full bg-[#D7A34D]/10 blur-[100px] pointer-events-none" />
+  <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-[#D7A34D]/5 blur-[100px] pointer-events-none" />
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-[#D7A34D]/5 blur-[120px] pointer-events-none" />
 
-        <div className="relative max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16">
-          <FadeUpStagger>
-            <div className="text-center max-w-5xl mx-auto mb-14 md:mb-16">
-              <div className="inline-flex items-center gap-3 rounded-full border border-[#D7A34D]/15 bg-[#D7A34D]/20 backdrop-blur-md px-5 py-2 mb-8">
-                <span className="h-2 w-2 rounded-full bg-[#f9b267] animate-pulse" />
-                <span className="text-[11px] tracking-[0.35em] uppercase text-[#ed7e0a] font-medium">
-                  Skyblue USP
+  <div className="relative max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16">
+    <FadeUpStagger>
+      <div className="text-center max-w-5xl mx-auto mb-14 md:mb-16">
+        <div className="inline-flex items-center gap-3 rounded-full border border-[#D7A34D]/20 bg-[#D7A34D]/10 backdrop-blur-md px-5 py-2 mb-8">
+          <span className="h-2 w-2 rounded-full bg-[#ffa13c] animate-pulse" />
+          <span className="text-[11px] tracking-[0.35em] uppercase text-[#ed7e0a] font-medium">
+            Skyblue USP
+          </span>
+        </div>
+
+        <h2 className="mx-auto max-w-5xl text-2xl md:text-5xl leading-[1.1] tracking-[-0.02em] font-bold text-white">
+          Why Operators Trust Skyblue For Every Mission
+        </h2>
+
+        <p className="mt-6 max-w-3xl mx-auto text-base md:text-lg leading-relaxed text-gray-300">
+          Every trip is supported by proven systems, transparent pricing,
+          operational expertise, and a worldwide knowledge network
+          designed to remove complexity from mission planning.
+        </p>
+      </div>
+    </FadeUpStagger>
+
+    <FadeUpStagger>
+      <div className="mt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {uspSections.map((item, index) => {
+          const isLastOdd =
+            uspSections.length % 3 === 1 &&
+            index === uspSections.length - 1;
+
+          return (
+            <div
+              key={item.step}
+              className={`group relative overflow-hidden rounded-[36px] border border-gray-200 bg-white p-8 md:p-10 min-h-[320px] transition-all duration-500 hover:-translate-y-2 hover:border-[#D7A34D]/40 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] ${
+                isLastOdd ? "xl:col-start-2" : ""
+              }`}
+            >
+              {/* Glow */}
+              <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#D7A34D]/10 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+              {/* Connector */}
+              {index < uspSections.length - 1 && (
+                <div className="hidden xl:block absolute top-14 -right-6 z-10 h-[1px] w-12 bg-gradient-to-r from-[#D7A34D]/40 to-transparent" />
+              )}
+
+              {/* Top */}
+              <div className="relative z-10 mb-8 flex items-center justify-between">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#D7A34D]/20 bg-brand-navy text-[#D7A34D] transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+                  <CheckCircle2 className="h-6 w-6 text-white" />
+                </div>
+
+                <span className="text-[4rem] md:text-[4.5rem] font-bold leading-none tracking-[-0.04em] text-gray-300">
+                  {item.step}
                 </span>
               </div>
 
-              <h2 className="mx-auto max-w-5xl text-2xl md:text-5xl leading-[1.1] tracking-[-0.02em] font-bold text-white">
-                Why Operators Trust Skyblue For Every Mission
-              </h2>
+              {/* Content */}
+              <div className="relative z-10">
+                <h3 className="text-xl font-bold leading-[1.3] text-gray-900">
+                  {item.title}
+                </h3>
 
-              <p className="mt-6 max-w-3xl mx-auto text-base md:text-lg leading-relaxed text-white/75">
-                Every trip is supported by proven systems, transparent pricing,
-                operational expertise, and a worldwide knowledge network
-                designed to remove complexity from mission planning.
-              </p>
+                <p className="mt-5 text-[15px] leading-7 text-gray-700">
+                  {item.desc}
+                </p>
+              </div>
+
+              {/* Bottom Accent */}
+              <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-[#D7A34D] transition-all duration-500 group-hover:w-full" />
             </div>
-          </FadeUpStagger>
-          <FadeUpStagger>
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {uspSections.map((item, index) => {
-                const isLastOdd =
-                  uspSections.length % 3 === 1 &&
-                  index === uspSections.length - 1;
-
-                return (
-                  <div
-                    key={item.step}
-                    className={`group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/5 backdrop-blur-xl p-8 md:p-10 min-h-[320px] transition-all duration-500 hover:-translate-y-2 hover:border-[#D7A34D]/40 hover:bg-white/10 hover:shadow-[0_30px_80px_rgba(0,0,0,0.35)] ${
-                      isLastOdd ? "xl:col-start-2" : ""
-                    }`}
-                  >
-                    {/* Glow */}
-                    <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#D7A34D]/10 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-                    {/* Connector */}
-                    {index < uspSections.length - 1 && (
-                      <div className="hidden xl:block absolute top-14 -right-6 z-10 h-[1px] w-12 bg-gradient-to-r from-[#D7A34D]/40 to-transparent" />
-                    )}
-
-                    {/* Top */}
-                    <div className="relative z-10 mb-8 flex items-center justify-between">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#D7A34D]/20 bg-[#D7A34D]/10">
-                        <CheckCircle2 className="h-6 w-6 text-[#D7A34D]" />
-                      </div>
-
-                      <span className="text-[4rem] md:text-[4.5rem] font-bold leading-none tracking-[-0.04em] text-white/10">
-                        {item.step}
-                      </span>
-                    </div>
-
-                    {/* Content */}
-                    <div className="relative z-10">
-                      <h3 className="text-xl font-bold leading-[1.3] text-white">
-                        {item.title}
-                      </h3>
-
-                      <p className="mt-5 text-[15px] leading-7 text-white/70">
-                        {item.desc}
-                      </p>
-                    </div>
-
-                    {/* Bottom Accent */}
-                    <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-[#D7A34D] transition-all duration-500 group-hover:w-full" />
-                  </div>
-                );
-              })}
-            </div>
-          </FadeUpStagger>
-        </div>
-      </section>
+          );
+        })}
+      </div>
+    </FadeUpStagger>
+  </div>
+</section>
 
       <section className="bg-[#F6F4EF] py-10 md:py-20 overflow-hidden">
         <div className="max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16">

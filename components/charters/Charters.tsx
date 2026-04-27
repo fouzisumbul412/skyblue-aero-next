@@ -12,30 +12,65 @@ const Charters = () => {
   return (
     <main>
       {/* HERO */}
-      <section className="relative h-[80vh] flex items-end overflow-hidden">
-        <Image
-          src="/images/hero-jet.jpg"
-          alt="Private jet charter"
-          fill
-          className="object-cover"
-          priority
-        />
+{/* HERO */}
+<section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
 
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-obsidian/80 via-brand-obsidian/30 to-transparent" />
+  {/* Background Image + Layers */}
+  <div className="absolute inset-0">
+    <Image
+      src="/images/chart.jpeg"
+      alt="Private jet charter"
+      fill
+      priority
+      className="object-cover object-center scale-105"
+    />
 
-        <div className="relative z-10 max-w-[1400px] mx-auto w-full px-6 md:px-10 pb-16 md:pb-24">
-          <p className="font-body text-brand-gold text-xs tracking-[0.3em] uppercase mb-4">
-            Air Charter Services
-          </p>
+    {/* Dark overlays */}
+    <div className="absolute inset-0 bg-[#06111D]/45" />
+    <div className="absolute inset-0 bg-gradient-to-b from-[#06111D]/20 via-[#06111D]/35 to-[#06111D]/80" />
 
-          <SplitTextReveal
-            as="h1"
-            className="text-fluid-display font-display font-bold text-brand-cream"
-          >
-            Luxury in Air. Personalised.
-          </SplitTextReveal>
-        </div>
-      </section>
+    {/* Gold radial glow */}
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(215,163,77,0.18),transparent_40%)]" />
+
+    {/* Side cinematic gradient */}
+    <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(6,17,29,0.82),rgba(6,17,29,0.28),rgba(6,17,29,0.78))]" />
+  </div>
+
+  {/* Noise texture */}
+  <div
+    className="absolute inset-0 opacity-[0.03] pointer-events-none"
+    style={{
+      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+      backgroundRepeat: "repeat",
+      backgroundSize: "180px 180px",
+    }}
+  />
+
+  {/* Content */}
+  <div className="relative z-10 max-w-[1400px] mx-auto w-full px-6 md:px-10 text-center flex flex-col items-center justify-center">
+    
+    <FadeUpStagger>
+      <p className="font-body text-brand-gold text-xs tracking-[0.3em] uppercase mb-4">
+        Air Charter Services
+      </p>
+    </FadeUpStagger>
+
+    <SplitTextReveal
+      as="h1"
+      className="text-2xl md:text-5xl font-display font-bold text-brand-cream"
+    >
+      Luxury in Air. Personalised.
+    </SplitTextReveal>
+
+    <FadeUpStagger>
+      <p className="mt-6 max-w-2xl mx-auto text-base md:text-lg text-white/70 leading-relaxed">
+        Experience seamless private aviation with tailored charter solutions,
+        global access, and unmatched operational expertise.
+      </p>
+    </FadeUpStagger>
+
+  </div>
+</section>
 
       {/* INTRO */}
       <section className="bg-brand-cream py-24 md:py-32">

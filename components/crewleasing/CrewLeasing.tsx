@@ -449,7 +449,7 @@ export default function CrewLeasing() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#1671a9] py-10 md:py-20">
+      <section className="relative overflow-hidden bg-brand-navy py-10 md:py-20">
         {/* Background Glow */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute left-[-120px] top-[-120px] h-[420px] w-[420px] rounded-full bg-white/10 blur-[140px]" />
@@ -461,9 +461,9 @@ export default function CrewLeasing() {
         <div className="relative max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16">
           {/* Heading */}
           <FadeUpStagger>
-            <div className="max-w-4xl mx-auto text-center mb-14 md:mb-16">
+            <div className="max-w-6xl mx-auto text-center mb-14 md:mb-16">
               <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-5 py-2 mb-8 backdrop-blur-md">
-                <span className="h-2 w-2 rounded-full bg-[#F7931E] animate-pulse" />
+                <span className="h-2 w-2 rounded-full bg-brand-gold animate-pulse" />
                 <span className="text-[11px] tracking-[0.35em] uppercase text-white/80 font-medium">
                   Pilot Support Services
                 </span>
@@ -489,21 +489,21 @@ export default function CrewLeasing() {
                 return (
                   <FadeUpStagger key={card.id}>
                     <div
-                      className={`group relative h-full overflow-hidden rounded-[36px] border border-white/15 ${card.bgClass} backdrop-blur-xl p-8 md:p-10 transition-all duration-500 hover:-translate-y-2 hover:border-[#F7931E]/30`}
+                      className={`group relative h-full overflow-hidden rounded-[36px] border border-white/15  bg-white backdrop-blur-xl p-8 md:p-10 transition-all duration-500 hover:-translate-y-2 hover:border-[#F7931E]/30`}
                     >
                       <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#F7931E]/10 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                       <div className="relative z-10">
                         <div className="flex items-center gap-4 mb-8">
-                          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#F7931E]/20 bg-[#F7931E]/15">
-                            <Icon className="h-6 w-6 text-[#F7931E]" />
+                          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#F7931E]/20 bg-brand-navy">
+                            <Icon className="h-6 w-6 text-white" />
                           </div>
 
                           <div>
                             <p className="text-[11px] tracking-[0.3em] uppercase text-white/50 mb-1">
                               {card.badge}
                             </p>
-                            <h3 className="text-xl md:text-2xl font-bold text-white">
+                            <h3 className="text-xl md:text-2xl font-bold text-gray-900">
                               {card.title}
                             </h3>
                           </div>
@@ -519,7 +519,7 @@ export default function CrewLeasing() {
                           {card.items.map((item) => (
                             <div key={item} className="flex items-start gap-3">
                               <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#F7931E]" />
-                              <span className="text-sm leading-relaxed text-white/80">
+                              <span className="text-sm leading-relaxed text-gray-700">
                                 {item}
                               </span>
                             </div>

@@ -434,7 +434,7 @@ export default function Brokerage() {
         </div>
       </section>
       {/* ════════════════════════════════ PROCESS ════════════════════════════ */}
-      <section className="bg-[#1671a9] py-10 md:py-20 relative overflow-hidden">
+      <section className="bg-brand-navy py-10 md:py-20 relative overflow-hidden">
         {/* Decorative blobs */}
         <div className="absolute top-0 left-0 h-[500px] w-[500px] rounded-full bg-[#D7A34D]/8 blur-[100px] pointer-events-none" />
         <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-white/4 blur-[100px] pointer-events-none" />
@@ -466,20 +466,20 @@ export default function Brokerage() {
               {processSteps.map((step, index) => (
                 <div
                   key={step.step}
-                  className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/5 backdrop-blur-xl p-8 md:p-10 min-h-[320px] transition-all duration-500 hover:-translate-y-2 hover:border-[#D7A34D]/40 hover:bg-white/10 hover:shadow-[0_30px_80px_rgba(0,0,0,0.35)]"
+                  className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white backdrop-blur-xl p-8 md:p-10 min-h-[320px] transition-all duration-500 hover:-translate-y-2 hover:border-brand-gold hover:shadow-[0_30px_80px_rgba(0,0,0,0.35)]"
                 >
                   {/* Glow */}
-                  <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#D7A34D]/10 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand-gold/10 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                   {/* Connector Line */}
-                  {index < processSteps.length - 1 && (
-                    <div className="hidden xl:block absolute top-14 -right-6 z-10 h-[1px] w-12 bg-gradient-to-r from-[#D7A34D]/40 to-transparent" />
-                  )}
+                  {/* {index < processSteps.length - 1 && (
+                    <div className="hidden xl:block absolute top-14 -right-6 z-10 h-[1px] w-12 bg-gradient-to-r from-brand-gold to-transparent" />
+                  )} */}
 
                   {/* Top Section */}
                   <div className="relative z-10 mb-8 flex items-center justify-between">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#D7A34D]/20 bg-[#D7A34D]/10">
-                      <CheckCircle2 className="h-6 w-6 text-[#D7A34D]" />
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white bg-brand-navy">
+                      <CheckCircle2 className="h-6 w-6 text-white" />
                     </div>
 
                     <span className="text-[4rem] md:text-[4.5rem] font-bold leading-none tracking-[-0.04em] text-white/10">
@@ -489,17 +489,17 @@ export default function Brokerage() {
 
                   {/* Content */}
                   <div className="relative z-10">
-                    <h3 className="max-w-[260px] text-xl md:text-2xl font-bold leading-[1.1] text-white">
+                    <h3 className="max-w-[260px] text-xl md:text-2xl font-bold leading-[1.1] text-gray-900">
                       {step.title}
                     </h3>
 
-                    <p className="mt-5 text-[15px] leading-7 text-white">
+                    <p className="mt-5 text-[15px] leading-7 text-gray-700">
                       {step.desc}
                     </p>
                   </div>
 
                   {/* Bottom Accent */}
-                  <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-[#D7A34D] transition-all duration-500 group-hover:w-full" />
+                  <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-brand-gold transition-all duration-500 group-hover:w-full" />
                 </div>
               ))}
             </div>
