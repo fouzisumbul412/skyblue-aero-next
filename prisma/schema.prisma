@@ -170,3 +170,70 @@ model CharterRequest {
   zohoId String?
   createdAt DateTime @default(now())
 }
+
+model DynamicPage {
+  id String @id @default(uuid())
+  slug String @unique
+  
+  heroTitle String
+  heroSubtitle String?
+  heroDesc String?
+  heroImage String?
+
+  sections PageSection[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum SectionType {
+  INTRO
+  GRID
+  PROCESS
+  CAROUSEL
+  TABS
+  STATS
+  TEXT
+}
+
+model PageSection {
+  id String @id @default(uuid())
+  pageId String
+  
+  type SectionType
+  order Int @default(0)
+
+  title String?
+  subtitle String?
+  description String?
+  image String?
+  
+  badgeIcon String?
+  badgeTitle String?
+  badgeDesc String?
+  
+  buttonText String?
+  buttonLink String?  
+  
+  tags Json?
+
+  page DynamicPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  items SectionItem[]
+}
+
+model SectionItem {
+  id String @id @default(cuid())
+  sectionId String
+  order Int @default(0)
+
+  title String?
+  subtitle String?
+  description String?
+  
+  icon String?
+  image String?
+  
+  bullets Json?
+  extraData Json?
+  section PageSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+}

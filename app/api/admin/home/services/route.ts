@@ -9,7 +9,7 @@ const servicesSchema = z.object({
     title: z.string().min(1, "Card title is required"),
     description: z.string().min(1, "Description is required"),
     order: z.number().int()
-  })).length(5, "The Bento Grid requires exactly 5 service cards")
+  })).min(5, "You must have a minimum of 5 service cards") 
 });
 
 export async function POST(req: NextRequest) {
@@ -32,11 +32,9 @@ export async function POST(req: NextRequest) {
 
     let config;
     
-    // update
     if (existingConfig) {
         config = await prisma.homeServicesConfig.update({ where: { id: existingConfig.id }, data: { title } });
     }
-    // create
     else {
         config = await prisma.homeServicesConfig.create({ data: { title } });
     }
@@ -55,5 +53,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, message: "Services section updated successfully" }, { status: 200 });
 
   } catch {
-    return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 }) };
+    return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
+  }
 }
