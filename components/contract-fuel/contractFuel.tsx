@@ -343,7 +343,7 @@ export default function ContractFuel() {
         </div>
       </section>
       {/* ════════════════════════════════ THE SKYBLUE usp ════════════════════════ */}
-      <section className="py-12 md:py-24 bg-[#1671a9] relative overflow-hidden">
+      <section className="py-12 md:py-24 bg-brand-navy relative overflow-hidden">
         {/* Decorative blobs */}
         <div className="absolute top-0 right-0 h-[600px] w-[600px] rounded-full bg-[#D7A34D]/10 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-[-20%] left-[-10%] h-[700px] w-[700px] rounded-full bg-[#06111D]/30 blur-[150px] pointer-events-none" />
@@ -366,27 +366,27 @@ export default function ContractFuel() {
           </FadeUpStagger>
 
           <FadeUpStagger>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-5 max-w-8xl mx-auto">
               {features.map((item) => {
                 const Icon = item.icon;
 
                 return (
                   <div
                     key={item.title}
-                    className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] backdrop-blur-xl p-8 md:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 hover:border-[#D7A34D]/40 hover:bg-white/[0.07] hover:shadow-[0_32px_80px_rgba(0,0,0,0.25)]"
+                    className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white backdrop-blur-xl p-8 md:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 hover:border-brand-gold  hover:shadow-[0_32px_80px_rgba(0,0,0,0.25)]"
                   >
                     <div className="absolute -right-16 -top-16 h-52 w-52 rounded-full bg-[#D7A34D]/20 blur-[90px] opacity-0 transition-all duration-700 group-hover:opacity-100" />
 
                     <div className="relative z-10">
-                      <div className="mb-7 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-[#EE7D03] shadow-lg shadow-black/20 transition-all duration-500 group-hover:scale-110 group-hover:-rotate-3">
+                      <div className="mb-7 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-brand-navy text-white shadow-lg shadow-black/20 transition-all duration-500 group-hover:scale-110 group-hover:-rotate-3">
                         <Icon className="h-7 w-7" strokeWidth={2.2} />
                       </div>
 
-                      <h3 className="text-xl md:text-[28px] font-bold leading-[1.15] tracking-[-0.02em] text-white">
+                      <h3 className="text-xl md:text-[28px] font-bold leading-[1.15] tracking-[-0.02em] text-gray-900">
                         {item.title}
                       </h3>
 
-                      <p className="mt-5 text-[15px] leading-7 text-white/70">
+                      <p className="mt-5 text-[15px] leading-7 text-gray-700">
                         {item.desc}
                       </p>
 
@@ -394,9 +394,9 @@ export default function ContractFuel() {
                         {item.points.map((point) => (
                           <div
                             key={point}
-                            className="flex items-start gap-3 text-[14px] md:text-[15px] leading-6 text-white/80"
+                            className="flex items-start gap-3 text-[14px] md:text-[15px] leading-6 text-gray-700"
                           >
-                            <div className="mt-2 h-2 w-2 rounded-full bg-[#D7A34D] shrink-0" />
+                            <div className="mt-2 h-2 w-2 rounded-full bg-brand-gold shrink-0" />
                             <span>{point}</span>
                           </div>
                         ))}
