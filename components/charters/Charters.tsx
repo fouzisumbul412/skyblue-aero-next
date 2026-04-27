@@ -12,80 +12,89 @@ const Charters = () => {
   return (
     <main>
       {/* HERO */}
-{/* HERO */}
-<section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+      {/* HERO */}
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
 
-  {/* Background Image + Layers */}
-  <div className="absolute inset-0">
-    <Image
-      src="/images/chart.jpeg"
-      alt="Private jet charter"
-      fill
-      priority
-      className="object-cover object-center scale-105"
-    />
+        {/* Background Image + Layers */}
+        <div className="absolute inset-0">
+          <Image
+            src="/images/chart.jpeg"
+            alt="Private jet charter"
+            fill
+            priority
+            className="object-cover object-center scale-105"
+          />
 
-    {/* Dark overlays */}
-    <div className="absolute inset-0 bg-[#06111D]/45" />
-    <div className="absolute inset-0 bg-gradient-to-b from-[#06111D]/20 via-[#06111D]/35 to-[#06111D]/80" />
+          {/* Dark overlays */}
+          <div className="absolute inset-0 bg-[#06111D]/45" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#06111D]/20 via-[#06111D]/35 to-[#06111D]/80" />
 
-    {/* Gold radial glow */}
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(215,163,77,0.18),transparent_40%)]" />
+          {/* Gold radial glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(215,163,77,0.18),transparent_40%)]" />
 
-    {/* Side cinematic gradient */}
-    <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(6,17,29,0.82),rgba(6,17,29,0.28),rgba(6,17,29,0.78))]" />
-  </div>
+          {/* Side cinematic gradient */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(6,17,29,0.82),rgba(6,17,29,0.28),rgba(6,17,29,0.78))]" />
+        </div>
 
-  {/* Noise texture */}
-  <div
-    className="absolute inset-0 opacity-[0.03] pointer-events-none"
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-      backgroundRepeat: "repeat",
-      backgroundSize: "180px 180px",
-    }}
-  />
+        {/* Noise texture */}
+        <div
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "180px 180px",
+          }}
+        />
 
-  {/* Content */}
-  <div className="relative z-10 max-w-[1400px] mx-auto w-full px-6 md:px-10 text-center flex flex-col items-center justify-center">
-    
-    <FadeUpStagger>
-      <p className="font-body text-brand-gold text-xs tracking-[0.3em] uppercase mb-4">
-        Air Charter Services
-      </p>
-    </FadeUpStagger>
+        {/* Content */}
+        <div className="relative z-10 max-w-[1400px] mx-auto w-full px-6 md:px-10 text-center flex flex-col items-center justify-center">
 
-    <SplitTextReveal
-      as="h1"
-      className="text-2xl md:text-5xl font-display font-bold text-brand-cream"
-    >
-      Luxury in Air. Personalised.
-    </SplitTextReveal>
+          <FadeUpStagger>
+            <p className="font-body text-brand-gold text-xs tracking-[0.3em] uppercase mb-4">
+              Air Charter Services
+            </p>
+          </FadeUpStagger>
 
-    <FadeUpStagger>
-      <p className="mt-6 max-w-2xl mx-auto text-base md:text-lg text-white/70 leading-relaxed">
-        Experience seamless private aviation with tailored charter solutions,
-        global access, and unmatched operational expertise.
-      </p>
-    </FadeUpStagger>
+          <SplitTextReveal
+            as="h1"
+            className="text-2xl md:text-5xl font-display font-bold text-brand-cream"
+          >
+            Luxury in Air. Personalised.
+          </SplitTextReveal>
 
-  </div>
-</section>
+          <FadeUpStagger>
+            <p className="mt-6 max-w-2xl mx-auto text-base md:text-lg text-white/70 leading-relaxed">
+              Experience seamless private aviation with tailored charter solutions,
+              global access, and unmatched operational expertise.
+            </p>
+          </FadeUpStagger>
+
+        </div>
+      </section>
 
       {/* INTRO */}
       <section className="bg-brand-cream py-24 md:py-32">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
           <FadeUpStagger>
-            <h2 className="font-display text-fluid-heading font-bold text-gray-900 mb-6">
+            <h2 className="font-display text-2xl md:text-4xl capitalize font-bold text-gray-900 mb-6">
               Your Private Sky
             </h2>
 
             <p className="font-body text-gray-700 text-base md:text-lg leading-relaxed mb-4">
-              As part of our air charter services, we offer comprehensive charter brokerage solutions tailored to meet diverse client requirements. Leveraging an extensive global network of operators and aircraft, we source and secure the most suitable charter options with efficiency and discretion. From business travel to leisure journeys and specialized missions, we manage the entire process seamlessly—ensuring optimal routing, competitive pricing, and a consistently high standard of service.
+              As part of our air charter services, we offer comprehensive charter brokerage solutions tailored
+              to meet diverse client requirements. Leveraging an extensive global network of operators and aircraft,
+              we source and secure the most suitable charter options with efficiency and discretion.
+              From business travel to leisure journeys and specialized missions, we manage the entire process
+              seamlessly—ensuring optimal routing, competitive pricing, and a consistently high standard of service.
+            </p>
+            <p className="font-body text-gray-700 text-base md:text-lg leading-relaxed">
+              We operate our own DGCA CAR 145-approved maintenance organization, supported by fully integrated CAMO
+              (Continuing Airworthiness Management Organisation) services. This in-house capability enables seamless oversight
+              of aircraft maintenance, airworthiness planning, and regulatory compliance, ensuring enhanced efficiency, transparency,
+              and the highest standards of operational integrity.
             </p>
 
-            
           </FadeUpStagger>
 
           <ClipReveal direction="right">
@@ -101,7 +110,7 @@ const Charters = () => {
 
         </div>
       </section>
-<Falcon900ExperienceSection />
+      <Falcon900ExperienceSection />
 
 
       {/* WHY CHARTER */}

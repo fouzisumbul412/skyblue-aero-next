@@ -27,21 +27,13 @@ const tabs = [
     content: (
       <div className="space-y-6">
         <p className="text-base md:text-lg leading-relaxed text-[#06111D]/80">
-          The aircraft has undergone a comprehensive C-Check in accordance with
-          the approved maintenance program and is maintained to the highest
-          standards of airworthiness.
+          The aircraft has undergone a comprehensive C-Check in accordance with the approved maintenance program and is maintained to the highest standards of airworthiness.
         </p>
         <p className="text-base md:text-lg leading-relaxed text-[#06111D]/80">
-          All scheduled and unscheduled maintenance is carried out by
-          DGCA-approved maintenance organizations, with full compliance to
-          regulatory requirements. Technical records, including aircraft
-          logbooks, are accurately maintained and up to date, ensuring complete
-          traceability of all maintenance activities.
+          All scheduled and unscheduled maintenance is performed in-house under our DGCA CAR 145-approved maintenance framework, ensuring complete control, consistency, and adherence to regulatory standards. Technical records, including aircraft logbooks, are meticulously maintained and kept fully up to date, providing complete traceability of all maintenance activities.
         </p>
         <p className="text-base md:text-lg leading-relaxed text-[#06111D]/80">
-          The aircraft continues to operate under a strict maintenance and
-          inspection regime, reflecting our commitment to safety, reliability,
-          and regulatory compliance.
+          The aircraft continues to operate under a rigorous inspection and maintenance regime, reflecting our unwavering commitment to safety, reliability, and operational excellence.
         </p>
       </div>
     ),
