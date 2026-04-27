@@ -77,17 +77,15 @@ const Charters = () => {
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
           <FadeUpStagger>
-            <h2 className="font-display text-fluid-heading font-bold text-brand-navy mb-6">
+            <h2 className="font-display text-fluid-heading font-bold text-gray-900 mb-6">
               Your Private Sky
             </h2>
 
-            <p className="font-body text-brand-navy/70 text-base md:text-lg leading-relaxed mb-4">
-              Every charter is a bespoke experience — from aircraft selection to in-flight services.
+            <p className="font-body text-gray-700 text-base md:text-lg leading-relaxed mb-4">
+              As part of our air charter services, we offer comprehensive charter brokerage solutions tailored to meet diverse client requirements. Leveraging an extensive global network of operators and aircraft, we source and secure the most suitable charter options with efficiency and discretion. From business travel to leisure journeys and specialized missions, we manage the entire process seamlessly—ensuring optimal routing, competitive pricing, and a consistently high standard of service.
             </p>
 
-            <p className="font-body text-brand-navy/60 text-base leading-relaxed">
-              Access to 5,000+ aircraft worldwide — tailored to your mission.
-            </p>
+            
           </FadeUpStagger>
 
           <ClipReveal direction="right">
