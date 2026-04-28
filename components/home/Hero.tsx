@@ -33,7 +33,7 @@ const Hero: React.FC<HeroProps> = ({ isLoaded }) => {
         <video
           ref={desktopVideoRef}
           className="hidden md:block w-full h-full object-cover"
-          src={"/images/hero-desk.mp4"}
+          src={"/images/skydesk.mp4"}
           loop
           muted
           playsInline

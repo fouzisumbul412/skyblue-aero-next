@@ -35,6 +35,12 @@ const tabs = [
         <p className="text-base md:text-lg leading-relaxed text-[#06111D]/80">
           The aircraft continues to operate under a rigorous inspection and maintenance regime, reflecting our unwavering commitment to safety, reliability, and operational excellence.
         </p>
+        <p className="text-base md:text-lg leading-relaxed text-[#06111D]/80">
+  <strong className="text-[#06111D]">
+    In-house DGCA CAR 145 & CAMO capability:
+  </strong>{" "}
+  We operate our own DGCA CAR 145-approved maintenance organization, supported by fully integrated CAMO (Continuing Airworthiness Management Organisation) services. This in-house capability enables seamless oversight of aircraft maintenance, airworthiness planning, and regulatory compliance, ensuring enhanced efficiency, transparency, and the highest standards of operational integrity.
+</p>
       </div>
     ),
     badge: {
@@ -78,6 +84,7 @@ const tabs = [
           training inputs are aligned with current regulatory standards and
           industry expectations.
         </p>
+        
       </div>
     ),
     badge: {

@@ -88,12 +88,7 @@ const Charters = () => {
               From business travel to leisure journeys and specialized missions, we manage the entire process
               seamlessly—ensuring optimal routing, competitive pricing, and a consistently high standard of service.
             </p>
-            <p className="font-body text-gray-700 text-base md:text-lg leading-relaxed">
-              We operate our own DGCA CAR 145-approved maintenance organization, supported by fully integrated CAMO
-              (Continuing Airworthiness Management Organisation) services. This in-house capability enables seamless oversight
-              of aircraft maintenance, airworthiness planning, and regulatory compliance, ensuring enhanced efficiency, transparency,
-              and the highest standards of operational integrity.
-            </p>
+            
 
           </FadeUpStagger>
 
