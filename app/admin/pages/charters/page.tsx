@@ -82,7 +82,7 @@ export default function AdminChartersPage() {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      // 1. Prepare Charters Data (Dynamic Schema)
+      //  Prepare Charters Data (Dynamic Schema)
       const chartersFormData = new FormData();
       const cleanDataToSave = {
         heroTitle: pageData.heroTitle, heroSubtitle: pageData.heroSubtitle, heroDesc: pageData.heroDesc, heroImage: pageData.heroImage,
@@ -96,17 +96,17 @@ export default function AdminChartersPage() {
         if (sec.newImageFile) chartersFormData.append(`section_${sIndex}_image`, sec.newImageFile);
       });
 
-      // 2. Prepare Falcon Data (Specific Schema)
+      // Prepare Falcon Data (Specific Schema)
       const falconFormData = new FormData();
-      Object.entries(falconData.content).forEach(([key, val]) => falconFormData.append(key, val));
+      Object.entries(falconData.content).forEach(([key, val]) => falconFormData.append(key, val as string));
       if (falconData.imageFile) falconFormData.append("image", falconData.imageFile);
       const formattedGridItems = [
-        ...falconData.leftItems.map((item: any, i) => ({ side: "LEFT", label: item.label, value: item.value, order: i })),
-        ...falconData.rightItems.map((item: any, i) => ({ side: "RIGHT", label: item.label, value: item.value, order: i }))
+        ...falconData.leftItems.map((item: any, i: number) => ({ side: "LEFT", label: item.label, value: item.value, order: i })),
+        ...falconData.rightItems.map((item: any, i: number) => ({ side: "RIGHT", label: item.label, value: item.value, order: i }))
       ];
       falconFormData.append("gridItems", JSON.stringify(formattedGridItems));
 
-      // 3. Fire both API requests simultaneously
+      // Fire both API requests simultaneously
       const [res1, res2] = await Promise.all([
         fetch(`/api/admin/pages/${SLUG}`, { method: "POST", body: chartersFormData }),
         fetch("/api/admin/charter/falcon", { method: "POST", body: falconFormData })
@@ -114,15 +114,31 @@ export default function AdminChartersPage() {
 
       const [result1, result2] = await Promise.all([res1.json(), res2.json()]);
 
-      if (result1.success && result2.success) {
-        toast.success("Charters & Falcon settings saved successfully!");
+      let hasError = false;
+
+      // Check Charters Page Result
+      if (result1.success) {
         mutatePage();
+      } else {
+        toast.error(`Charters Page Error: ${result1.message || "Failed to save."}`);
+        hasError = true;
+      }
+
+      // Check Falcon Section Result
+      if (result2.success) {
         mutateFalcon();
       } else {
-        toast.error("Partial save failed. Check logs.");
+        toast.error(`Falcon Section Error: ${result2.message || "Failed to save."}`);
+        hasError = true;
       }
-    } catch (error) {
-      toast.error("An error occurred during save.");
+
+      // Show overall success only if both succeeded
+      if (!hasError) {
+          toast.success("All settings saved successfully!");
+      }
+
+    } catch (error: any) {
+      toast.error(error.message || "An unexpected error occurred during save.");
     } finally {
       setIsSaving(false);
     }

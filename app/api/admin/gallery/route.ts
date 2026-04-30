@@ -3,6 +3,7 @@ import { getAdmin } from "@/lib/auth";
 import { uploadImage } from "@/lib/uploads";
 import z from "zod";
 import { prisma } from "@/lib/prisma";
+import { MAX_FILE_SIZE } from "@/lib/constants";
 
 const gallerySchema = z.object({
   order: z.preprocess((val) => Number(val), z.number().int().default(0)),
@@ -20,6 +21,10 @@ export async function POST(req: NextRequest) {
     
     if (!imageFile || imageFile.size === 0) {
       return NextResponse.json({ success: false, message: "Image is required" }, { status: 400 });
+    }
+
+    if (imageFile.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ success: false, message: "Image exceeds the 5MB limit." }, { status: 400 });
     }
 
     const validation = gallerySchema.safeParse({

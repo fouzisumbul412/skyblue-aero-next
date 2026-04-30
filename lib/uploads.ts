@@ -1,10 +1,11 @@
 import { writeFile, mkdir, unlink } from "fs/promises";
 import path from "path";
 import { v2 as cloudinary } from "cloudinary";
+import { MAX_FILE_SIZE } from "./constants";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
+  api_key: process.env.CLOUDINARY_API_KEY, 
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
@@ -18,6 +19,10 @@ async function ensureUploadDir(subfolder: string = "") {
 
 export async function uploadFile(file: File, subfolder: string = ""): Promise<string> {
   if (!file) throw new Error("No file provided");
+
+  if (file.size > MAX_FILE_SIZE) {
+    throw new Error(`File size exceeds the ${MAX_FILE_SIZE / 1024 / 1024}MB limit.`);
+  }
 
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);

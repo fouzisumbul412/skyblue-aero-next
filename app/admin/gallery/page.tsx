@@ -7,7 +7,8 @@ import {
   UploadCloud, Trash2, Loader2, Image as ImageIcon, 
   Save, ChevronLeft, ChevronRight 
 } from "lucide-react";
-import ConfirmModal from "@/components/admin/ConfirmModal"; // Ensure path is correct
+import ConfirmModal from "@/components/admin/ConfirmModal";
+import { MAX_FILE_SIZE } from "@/lib/constants";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -44,6 +45,10 @@ export default function AdminGallery() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        toast.error(`Image size should be less than ${MAX_FILE_SIZE / 1024 / 1024}MB.`);
+        return;
+      }
       setSelectedFile(file);
       setPreviewUrl(URL.createObjectURL(file));
     }

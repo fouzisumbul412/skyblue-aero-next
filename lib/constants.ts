@@ -10,4 +10,6 @@ export const ASANA_FAQS_PROJECT_ID = process.env.ASANA_FAQS_PROJECT_ID;
 
 export const ASANA_FEATURES_PROJECT_ID = process.env.ASANA_FEATURES_PROJECT_ID;
 
+export const MAX_FILE_SIZE = 4 * 1024 * 1024;
+
 export const fetcher = (url: string)=>fetch(url).then((res)=>res.json());

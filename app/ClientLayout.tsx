@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Script from "next/script"; 
+import { Toaster } from "react-hot-toast";
 
 import Providers from "./providers";
 import Navigation from "@/components/global/Navigation";
@@ -41,6 +42,8 @@ export default function ClientLayout({
 
   return (
     <Providers>
+      <Toaster position="top-right" />
+
       {!isLoadingDone && !isAuthOrAdmin && (
         <FlightLoader
           onComplete={handleLoaderComplete}

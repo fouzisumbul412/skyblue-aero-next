@@ -3,6 +3,7 @@ import { getAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { deleteFile, uploadImage } from "@/lib/uploads";
 import z from "zod";
+import { MAX_FILE_SIZE } from "@/lib/constants";
 
 const blogSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -57,6 +58,10 @@ export async function PUT( req: NextRequest, { params }: { params: Promise<{ id:
 
     let thumbnailPath = existingPost.thumbnail;
     const imageFile = formData.get("thumbnail") as File | null;
+
+    if (imageFile && imageFile.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ success: false, message: `Thumbnail exceeds the ${MAX_FILE_SIZE / 1024 / 1024}MB limit.` }, { status: 400 });
+    }
 
     if (imageFile && imageFile.size > 0) {
       await deleteFile(existingPost.thumbnail);

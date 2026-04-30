@@ -3,6 +3,7 @@ import { getAdmin } from "@/lib/auth";
 import { deleteFile, uploadImage } from "@/lib/uploads";
 import z from "zod";
 import { prisma } from "@/lib/prisma";
+import { MAX_FILE_SIZE } from "@/lib/constants";
 
 const falconSchema = z.object({
   title: z.string().min(1, "Title is required").default("DASSAULT FALCON"),
@@ -53,6 +54,11 @@ export async function POST(req: NextRequest) {
     const imageFile = formData.get("image") as File | null;
 
     if (imageFile && imageFile.size > 0) {
+
+      if (imageFile.size > MAX_FILE_SIZE) {
+        return NextResponse.json({ success: false, message: `Thumbnail exceeds the ${MAX_FILE_SIZE / 1024 / 1024}MB limit.` }, { status: 400 });
+      }
+
       if (existingSection?.backgroundImage) {
         await deleteFile(existingSection.backgroundImage);
       }

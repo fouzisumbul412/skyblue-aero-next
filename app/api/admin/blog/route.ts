@@ -3,6 +3,7 @@ import { getAdmin } from "@/lib/auth";
 import { uploadImage } from "@/lib/uploads";
 import { prisma } from "@/lib/prisma";
 import z from "zod";
+import { MAX_FILE_SIZE } from "@/lib/constants";
 
 const blogSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -27,6 +28,10 @@ export async function POST(req: NextRequest) {
 
     if (!imageFile || imageFile.size === 0) {
       return NextResponse.json({ success: false, message: "Thumbnail is required" }, { status: 400 });
+    }
+
+    if (imageFile.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ success: false, message: `Thumbnail exceeds the ${MAX_FILE_SIZE / 1024 / 1024}MB limit.` }, { status: 400 });
     }
 
     const validation = blogSchema.safeParse({
