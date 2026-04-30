@@ -5,6 +5,8 @@ import {
   LayoutGrid, Plus, Trash2, GripHorizontal, 
   Image as ImageIcon, X, ListPlus, ChevronDown, ChevronUp
 } from "lucide-react";
+import toast from "react-hot-toast";
+import { MAX_FILE_SIZE } from "@/lib/constants";
 
 interface Props {
   section: any;
@@ -61,6 +63,18 @@ export default function GridEditor({ section, sIndex, config, updateSection }: P
   const removeBullet = (iIndex: number, bIndex: number) => {
     const newBullets = (section.items[iIndex].bullets || []).filter((_: any, i: number) => i !== bIndex);
     updateItem(iIndex, "bullets", newBullets);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, iIndex: number) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        toast.error(`File is too large. Please select an image smaller than ${MAX_FILE_SIZE / 1024 / 1024}MB.`);
+        e.target.value = '';
+        return;
+      }
+      updateItem(iIndex, "newImageFile", file);
+    }
   };
 
   return (
@@ -192,7 +206,7 @@ export default function GridEditor({ section, sIndex, config, updateSection }: P
                                   type="file" 
                                   className="sr-only" 
                                   accept="image/*"
-                                  onChange={(e) => e.target.files?.[0] && updateItem(iIndex, "newImageFile", e.target.files[0])}
+                                  onChange={(e) => handleFileChange(e, iIndex)}
                                 />
                               </label>
                             </div>
@@ -207,7 +221,7 @@ export default function GridEditor({ section, sIndex, config, updateSection }: P
                               type="file" 
                               className="sr-only" 
                               accept="image/*"
-                              onChange={(e) => e.target.files?.[0] && updateItem(iIndex, "newImageFile", e.target.files[0])}
+                              onChange={(e) => handleFileChange(e, iIndex)}
                             />
                           </label>
                         )}

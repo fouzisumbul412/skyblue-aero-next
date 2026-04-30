@@ -2,6 +2,8 @@
 
 import React from "react";
 import { Image as ImageIcon, LayoutTemplate, Type, AlignLeft, UploadCloud } from "lucide-react";
+import { MAX_FILE_SIZE } from "@/lib/constants";
+import toast from "react-hot-toast";
 
 interface HeroData {
   heroTitle: string;
@@ -19,7 +21,15 @@ interface Props {
 
 export default function HeroEditor({ data, onChange, onImageChange }: Props) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) onImageChange(e.target.files[0]);
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        toast.error(`File is too large. Please select an image smaller than ${MAX_FILE_SIZE / 1024 / 1024}MB.`);
+        e.target.value = '';
+        return;
+      }
+      onImageChange(file);
+    }
   };
 
   return (

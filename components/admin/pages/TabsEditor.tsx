@@ -6,6 +6,8 @@ import {
   Image as ImageIcon, Type, BadgeInfo, LayoutGrid, 
   AlignLeft, Settings2, X
 } from "lucide-react";
+import { MAX_FILE_SIZE } from "@/lib/constants";
+import toast from "react-hot-toast";
 
 interface Props {
   section: any;
@@ -61,6 +63,18 @@ export default function TabsEditor({ section, sIndex, updateSection }: Props) {
     const features = [...(section.items[activeTabIdx].extraData?.features || [])];
     features.push({ icon: "Star", title: "New Feature", desc: "Description" });
     updateExtra(activeTabIdx, "features", features);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        toast.error(`File is too large. Please select an image smaller than ${MAX_FILE_SIZE / 1024 / 1024}MB.`);
+        e.target.value = '';
+        return;
+      }
+      updateItem(activeTabIdx, "newImageFile", file);
+    }
   };
 
   const currentTab = section.items[activeTabIdx];
@@ -119,7 +133,7 @@ export default function TabsEditor({ section, sIndex, updateSection }: Props) {
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
                         <label className="cursor-pointer bg-white text-slate-900 px-6 py-3 rounded-2xl text-sm font-bold shadow-xl">
                           Change Image
-                          <input type="file" className="sr-only" accept="image/*" onChange={(e) => e.target.files?.[0] && updateItem(activeTabIdx, "newImageFile", e.target.files[0])} />
+                          <input type="file" className="sr-only" accept="image/*" onChange={handleFileChange} />
                         </label>
                       </div>
                     </>
@@ -127,7 +141,7 @@ export default function TabsEditor({ section, sIndex, updateSection }: Props) {
                     <label className="cursor-pointer flex flex-col items-center gap-2">
                       <ImageIcon size={32} className="text-slate-300" />
                       <span className="text-xs font-bold text-slate-400">Upload Media</span>
-                      <input type="file" className="sr-only" accept="image/*" onChange={(e) => e.target.files?.[0] && updateItem(activeTabIdx, "newImageFile", e.target.files[0])} />
+                      <input type="file" className="sr-only" accept="image/*" onChange={handleFileChange} />
                     </label>
                   )}
                 </div>

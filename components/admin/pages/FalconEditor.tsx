@@ -5,6 +5,8 @@ import {
   Plane, Image as ImageIcon, Plus, Trash2, 
   AlignLeft, AlignRight, FileText, Type, UploadCloud 
 } from "lucide-react";
+import { MAX_FILE_SIZE } from "@/lib/constants";
+import toast from "react-hot-toast";
 
 interface GridItem {
   label: string;
@@ -49,6 +51,18 @@ export default function FalconEditor({ data, updateContent, updateImage, updateG
   const removeItem = (side: "LEFT" | "RIGHT", index: number) => {
     const items = side === "LEFT" ? [...data.leftItems] : [...data.rightItems];
     updateGrid(side, items.filter((_, i) => i !== index));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > MAX_FILE_SIZE) {
+        toast.error(`File is too large. Please select an image smaller than ${MAX_FILE_SIZE / 1024 / 1024}MB.`);
+        e.target.value = ''; 
+        return;
+      }
+      updateImage(file);
+    }
   };
 
   return (
@@ -97,7 +111,7 @@ export default function FalconEditor({ data, updateContent, updateImage, updateG
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
                   <label className="cursor-pointer bg-white text-slate-900 px-6 py-3 rounded-2xl text-sm font-bold shadow-xl flex items-center gap-2 hover:scale-105 transition-transform">
                     <UploadCloud size={18} /> Replace Image
-                    <input type="file" className="sr-only" accept="image/*" onChange={(e) => e.target.files?.[0] && updateImage(e.target.files[0])} />
+                    <input type="file" className="sr-only" accept="image/*" onChange={handleFileChange} />
                   </label>
                 </div>
               </>
@@ -105,7 +119,7 @@ export default function FalconEditor({ data, updateContent, updateImage, updateG
               <label className="cursor-pointer flex flex-col items-center gap-3 hover:text-[#1868A5] transition-colors">
                 <ImageIcon size={40} className="text-slate-300 group-hover:text-[#1868A5]" />
                 <span className="text-sm font-bold text-slate-400 group-hover:text-[#1868A5]">Upload Aircraft Image</span>
-                <input type="file" className="sr-only" accept="image/*" onChange={(e) => e.target.files?.[0] && updateImage(e.target.files[0])} />
+                <input type="file" className="sr-only" accept="image/*" onChange={handleFileChange} />
               </label>
             )}
           </div>
