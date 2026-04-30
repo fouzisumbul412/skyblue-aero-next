@@ -51,7 +51,11 @@ export default function AdminMaintenancePage() {
         newHeroImage: null,
         sections: data.data.sections.map((s: any) => ({
           ...s, 
-          items: s.items.map((i: any) => ({ ...i, newImageFile: null }))
+          items: s.items.map((i: any) => ({ 
+            ...i, 
+            newImageFile: null,
+            extraData: typeof i.extraData === "string" ? JSON.parse(i.extraData) : (i.extraData || {})
+          }))
         }))
       });
     } else if (data && !data.success) {
