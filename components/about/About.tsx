@@ -137,26 +137,25 @@ const About = () => {
                 return (
                   <div
                     key={item.id || item.title}
-                    className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.03] backdrop-blur-md p-10 md:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.1)] transition-all duration-500 hover:-translate-y-2 hover:border-[#D7A34D]/40 hover:bg-white/[0.06] hover:shadow-[0_32px_80px_rgba(0,0,0,0.25)]"
-                  >
+className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white backdrop-blur-md p-10 md:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.1)] transition-all duration-500 hover:-translate-y-2 hover:border-[#D7A34D]/40 hover:shadow-[0_32px_80px_rgba(0,0,0,0.25)]"                  >
                     {/* Glow Accents */}
                     <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-[#D7A34D] blur-[80px] opacity-0 transition-opacity duration-700 group-hover:opacity-20" />
 
                     <div className="relative z-10">
-                      <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#fff]/50 border border-white/10 text-white transition-all duration-300 group-hover:scale-110 group-hover:-rotate-3 shadow-lg">
+                      <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-navy border border-white/10 text-white transition-all duration-300 group-hover:scale-110 group-hover:-rotate-3 shadow-lg">
                         <Icon className="h-7 w-7" />
                       </div>
 
-                      <h3 className="text-xl md:text-2xl font-bold leading-[1.3] text-white tracking-wide">
+                      <h3 className="text-xl md:text-2xl font-bold leading-[1.3] text-gray-900 tracking-wide">
                         {item.title}
                       </h3>
 
-                      <p className="mt-5 text-[16px] leading-relaxed text-white/70">
+                      <p className="mt-5 text-[16px] leading-relaxed text-gray-700">
                         {item.description}
                       </p>
                     </div>
 
-                    <div className="absolute bottom-0 left-0 h-[4px] w-0 bg-gradient-to-r from-[#D7A34D] to-[#ed7e0a] transition-all duration-700 ease-out group-hover:w-full" />
+                    <div className="absolute bottom-0 left-0 h-[4px] w-0 bg-gradient-to-r from-brand-gold to-brand-gold transition-all duration-700 ease-out group-hover:w-full" />
                   </div>
                 );
               })}
@@ -166,7 +165,7 @@ const About = () => {
       </section>
 
       {/* OUR VALUES SECTION  */}
-      <section className="bg-brand-cream py-10 border-t border-brand-navy/08">
+      <section className="bg-brand-cream py-16 border-t border-brand-navy/08">
         <div className="max-w-350 mx-auto px-6 md:px-10">
           <div className="text-center mb-16">
             <p className="font-body text-brand-gold text-xs tracking-[0.3em] uppercase mb-4">
@@ -183,15 +182,23 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {valuesSection.items.map((v: any) => (
               <FadeUpStagger key={v.id || v.title}>
-                <div className="text-center px-6">
-                  <div className="w-10 h-px bg-brand-gold mx-auto mb-6" />
-                  <h3 className="font-display text-xl font-bold text-brand-navy mb-4">
-                    {v.title}
-                  </h3>
-                  <p className="font-body text-brand-navy/60 text-sm leading-relaxed">
-                    {v.description}
-                  </p>
-                </div>
+                <div className="group relative p-[1px] rounded-2xl bg-gradient-to-br from-brand-gold/40 via-white/10 to-transparent hover:from-brand-gold/70 transition duration-500">
+  
+  <div className="relative h-full rounded-2xl bg-white/40 backdrop-blur-xl border border-white/30 shadow-lg px-8 py-10 text-center transition-all duration-500 group-hover:shadow-2xl group-hover:-translate-y-2">
+    
+    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-br from-brand-gold/10 to-transparent" />
+
+    <div className="w-12 h-[2px] bg-brand-gold mx-auto mb-6 transition-all duration-300 group-hover:w-16" />
+
+    <h3 className="font-display text-xl font-bold text-brand-navy mb-4">
+      {v.title}
+    </h3>
+
+    <p className="font-body text-brand-navy/70 text-sm leading-relaxed">
+      {v.description}
+    </p>
+  </div>
+</div>
               </FadeUpStagger>
             ))}
           </div>
